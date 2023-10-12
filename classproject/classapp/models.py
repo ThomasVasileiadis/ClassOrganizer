@@ -35,6 +35,7 @@ class Obligations(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=50)
     due_date = models.DateField()
+    due_time = models.TimeField()
 
 class StudentCourse(models.Model):
     student_course_id = models.AutoField(primary_key=True) #primary key
@@ -45,3 +46,4 @@ class StudentObligation(models.Model):
     student_obligation_id = models.AutoField(primary_key=True) #primary key
     student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
     obligation_id = models.ForeignKey(Obligations, on_delete=models.CASCADE)
+
