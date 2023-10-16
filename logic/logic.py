@@ -1,147 +1,105 @@
-import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler
-import os
+import pandas as pd
 import tensorflow as tf
+from tensorflow.keras.layers import Dense, Input
+from tensorflow.keras.models import Model
+from faker import Faker
 
+# Generate test data for 100 students
+fake = Faker()
+data = []
+for i in range(100):
+    name = fake.name()
+    availability = fake.random_elements(elements=('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'), length=2, unique=True)
+    availability_str = '; '.join([f"{day} {fake.random_element(elements=('15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'))}-" \
+                                  f"{fake.random_element(elements=('17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'))}" \
+                                  for day in availability])
+    other_activities = fake.random_element(elements=('Swimming', 'Chess', 'Reading', 'Writing', 'Drawing', 'Music', 'Dancing'))
+    english_level = fake.random_element(elements=('Pre-Junior', 'A-Junior', 'A', 'B', 'C', 'D', 'E', 'Lower', 'Proficiency'))
+    data.append([name, availability_str, other_activities, english_level])
 
-# Generate random data
-n_samples = 10000
-obligations = np.random.choice(['podosfairo', 'family', 'other'], size=n_samples)
-obligation_start_time = pd.to_timedelta(np.random.randint(1, 24, size=n_samples), unit='h')
-obligation_end_time = obligation_start_time + pd.to_timedelta(np.random.randint(1, 4, size=n_samples), unit='h')
-obligation_duration = obligation_end_time - obligation_start_time
-class_time = pd.to_datetime(np.random.randint(15, 21, size=n_samples), unit='h').strftime('%H:%M')
-class_duration = 45
-day = np.random.choice(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], size=n_samples)
-teacher = np.random.choice(['teacher1', 'teacher2', 'teacher3', 'teacher4', 'teacher5'], size=n_samples)
-student = np.random.choice(['student1', 'student2', 'student3', 'student4', 'student5', 'student6', 'student7'], size=n_samples)
+# Convert the data to a Pandas DataFrame and save it to a CSV file
+df = pd.DataFrame(data, columns=['Student Name', 'Availability', 'Other Activities', 'English Level'])
+df.to_csv('C:\\Users\\melen\\Desktop\\ClassOrganizer\\logic\\student_data.csv', index=False)
 
-# Save data to dataframe
-data = {'student': student, 'obligations': obligations, 'obligation_start_time': obligation_start_time, 'obligation_end_time': obligation_end_time, 'obligation_duration': obligation_duration, 'class_time': class_time, 'class_duration': class_duration, 'day': day, 'teacher': teacher, }
-df = pd.DataFrame(data)
+# Load and preprocess student data from a CSV file
+data = pd.read_csv("C:\\Users\\melen\\Desktop\\ClassOrganizer\\logic\\student_data.csv")
 
-# Export data to CSV
-current_path = os.getcwd()
-df.to_csv(current_path + '/logic/training_data.csv', index=False)
+# Example data columns: 'Student Name', 'Availability', 'Other Activities', 'English Level'
 
+# Preprocess data into one-hot encoding for days and times
+availability = pd.get_dummies(data['Availability'], prefix='day_time')
+other_activities = data['Other Activities']
 
-# Define the RL agent class
-class SchedulingAgent:
-    def __init__(self, state_dim, action_dim):
-        self.state_dim = state_dim
-        self.action_dim = action_dim
-        self.gamma = 0.99  # Discount factor
-        self.actor_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
-        self.critic_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
-        
-        # Create actor and critic networks
-        self.actor = self.build_actor_network()
-        self.critic = self.build_critic_network()
-        
-    def build_actor_network(self):
-        # Define and compile the actor network (policy)
-        actor = tf.keras.Sequential([
-            tf.keras.layers.Dense(64, activation='relu', input_shape=(self.state_dim,)),
-            tf.keras.layers.Dense(self.action_dim, activation='softmax')
-        ])
-        actor.compile(optimizer=self.actor_optimizer, loss='categorical_crossentropy')
-        return actor
+# Create a binary matrix for conflict detection
+conflict_matrix = np.zeros((len(data), len(data)), dtype=bool)
 
-    def build_critic_network(self):
-        # Define and compile the critic network (value)
-        critic = tf.keras.Sequential([
-            tf.keras.layers.Dense(64, activation='relu', input_shape=(self.state_dim,)),
-            tf.keras.layers.Dense(1, activation='linear')
-        ])
-        critic.compile(optimizer=self.critic_optimizer, loss='mean_squared_error')
-        return critic
+# Fill the conflict matrix based on student constraints
+for i in range(len(data)):
+    for j in range(i + 1, len(data)):
+        if other_activities[i] == other_activities[j]:
+            conflict_matrix[i, j] = True
+            conflict_matrix[j, i] = True
 
-    def choose_action(self, state):
-        # Implement the agent's action selection logic
-        action_probs = self.actor.predict(state)
-        action = np.random.choice(self.action_dim, p=action_probs[0])
-        return action
+# Cast the conflict matrix to boolean
+conflict_matrix = conflict_matrix.astype(bool)
 
-    def learn(self, state, action, reward, next_state):
-        # Implement the agent's learning process using PPO
+# Cast data types to 'float32'
+availability = availability.astype(np.float32)
 
-        # Calculate advantage using the critic network
-        advantage = self.calculate_advantage(state, next_state, reward)
+# Build a neural network model with output units matching the dimensions of availability
+input_layer = Input(shape=(len(availability.columns),))
+hidden_layer = Dense(64, activation='relu')(input_layer)
+output_layer = Dense(len(availability.columns), activation='softmax')(hidden_layer)
 
-        # One-hot encode the action
-        action_one_hot = tf.one_hot(action, self.action_dim)
+# Define the model
+model = Model(inputs=input_layer, outputs=output_layer)
 
-        # Calculate the probabilities of the selected actions
-        selected_action_prob = tf.reduce_sum(action_one_hot * self.actor(state), axis=1)
+# Compile the model
+model.compile(optimizer='adam', loss='categorical_crossentropy')
 
-        # Calculate the old probabilities of the selected actions
-        old_action_prob = tf.reduce_sum(action_one_hot * self.old_actor(state), axis=1)
+# Train the model on the availability data
+model.fit(availability, availability, epochs=10, batch_size=32)
 
-        # Calculate the ratio of new to old probabilities
-        ratio = selected_action_prob / (old_action_prob + 1e-5)
+# Use the model to predict the schedule
+schedule = model.predict(availability)
 
-        # Calculate surrogate loss
-        surrogate_loss = tf.minimum(ratio * advantage, tf.clip_by_value(ratio, 1 - clip_epsilon, 1 + clip_epsilon) * advantage)
+# Apply the conflict matrix to the schedule to ensure no conflicts
+for i in range(len(data)):
+    for j in range(i + 1, len(data)):
+        if conflict_matrix[i, j]:
+            schedule[i, np.argmax(schedule[j])] = 0
 
-        # Calculate the critic's value estimate
-        predicted_values = self.critic(state)
+# Define a list of days and times
+days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+times = ['15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00']
 
-        # Define the value loss
-        value_loss = tf.losses.mean_squared_error(predicted_values, reward)
+# Group students based on their availability and English level
+groups = {}
+for i in range(len(data)):
+    availability_str = data.iloc[i]['Availability']
+    english_level = data.iloc[i]['English Level']
+    if english_level not in groups:
+        groups[english_level] = []
+    groups[english_level].append(data.iloc[i]['Student Name'])
 
-        # Calculate the total loss
-        total_loss = -surrogate_loss + value_loss
+# Assign each group to a class
+class_num = 1
+for english_level, group in groups.items():
+    num_students = len(group)
+    num_classes = (num_students // 7) + (1 if num_students % 7 > 0 else 0)
+    for i in range(num_classes):
+        class_size = min(num_students - i * 7, 7)
+        class_group = group[i * 7:i * 7 + class_size]
+        print(f"Class {class_num} ({english_level}): {', '.join(class_group)}")
+        class_num += 1
 
-        # Update actor and critic networks
-        actor_gradients = tf.gradients(total_loss, self.actor.trainable_variables)
-        critic_gradients = tf.gradients(value_loss, self.critic.trainable_variables)
-
-        self.actor_optimizer.apply_gradients(zip(actor_gradients, self.actor.trainable_variables))
-        self.critic_optimizer.apply_gradients(zip(critic_gradients, self.critic.trainable_variables))
-
-    def calculate_advantage(self, state, next_state, reward):
-        # Implement the advantage calculation using the critic network
-        next_state_values = self.critic(next_state)
-        advantages = reward + self.gamma * next_state_values - self.critic(state)
-        return advantages
-
-# Load and preprocess data
-def load_and_preprocess_data():
-    # Load student data and teacher availability data
-    # Perform data preprocessing
-
-    return student_data, teacher_availability
-
-# Training loop
-def train_scheduling_agent():
-    # Load and preprocess data
-    student_data, teacher_availability = load_and_preprocess_data()
-
-    # Define state and action dimensions based on your data
-    state_dim = len(student_data.columns)  # Adjust as needed
-    action_dim = 7  # Adjust based on your scheduling problem
-
-    # Initialize the agent
-    agent = SchedulingAgent(state_dim, action_dim)
-
-    num_episodes = 1000  # Set an appropriate number of episodes
-    clip_epsilon = 0.2  # PPO clip parameter (tune as needed)
-
-    for episode in range(num_episodes):
-        state = initial_state  # Define the initial state for scheduling
-        done = False
-
-        while not done:
-            action = agent.choose_action(state)
-            
-            # Implement scheduling logic and obtain reward, next_state
-            
-            agent.learn(state, action, reward, next_state)
-            
-            state = next_state
-
-if __name__ == "__main__":
-    train_scheduling_agent()
-
-
+## Print the schedule with class information
+#print("Schedule:")
+#for i in range(len(data)):
+#    class_num = 0
+#    for availability_str, level_groups in groups.items():
+#        for english_level, group in level_groups.items():
+#            if data.iloc[i]['Student Name'] in group:
+#                class_num += 1
+#                print(f"{data.iloc[i]['Student Name']} (Class {class_num}): {', '.join([days[j] + ' ' + times[np.argmax(schedule[i, j * len(times):(j + 1) * len(times)])] for j in range(len(days)) if np.max(schedule[i, j * len(times):(j + 1) * len(times)]) > 0])}")
