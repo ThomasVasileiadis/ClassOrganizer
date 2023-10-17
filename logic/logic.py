@@ -1,3 +1,37 @@
+"""
+This script generates test data for 100 students, preprocesses the data into one-hot encoding for days and times, 
+creates a binary matrix for conflict detection, builds a neural network model with output units matching the dimensions 
+of availability, trains the model on the availability data, uses the model to predict the schedule, applies the conflict 
+matrix to the schedule to ensure no conflicts, groups students based on their availability and English level, and assigns 
+each group to a class. 
+
+The script imports the following libraries:
+    - numpy
+    - pandas
+    - tensorflow
+    - Faker
+
+The script defines the following functions:
+    - None
+
+The script includes the following main steps:
+    1. Generate test data for 100 students
+    2. Convert the data to a Pandas DataFrame and save it to a CSV file
+    3. Load and preprocess student data from a CSV file
+    4. Preprocess data into one-hot encoding for days and times
+    5. Create a binary matrix for conflict detection
+    6. Fill the conflict matrix based on student constraints
+    7. Cast the conflict matrix to boolean
+    8. Cast data types to 'float32'
+    9. Build a neural network model with output units matching the dimensions of availability
+    10. Define the model
+    11. Compile the model
+    12. Train the model on the availability data
+    13. Use the model to predict the schedule
+    14. Apply the conflict matrix to the schedule to ensure no conflicts
+    15. Group students based on their availability and English level
+    16. Assign each group to a class
+"""
 import numpy as np
 import pandas as pd
 import tensorflow as tf
