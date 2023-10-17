@@ -8,7 +8,7 @@ from faker import Faker
 # Generate test data for 100 students
 fake = Faker()
 data = []
-for i in range(100):
+for i in range(70):
     name = fake.name()
     availability = fake.random_elements(elements=('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'), length=2, unique=True)
     availability_str = '; '.join([f"{day} {fake.random_element(elements=('15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'))}-" \
