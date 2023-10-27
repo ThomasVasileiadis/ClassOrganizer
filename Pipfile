@@ -15,7 +15,8 @@ pip = "*"
 install = "*"
 scikit-learn = "*"
 faker = "*"
-reactpy = {extras = ["starlette"], version = "*"}
+reactpy = "*"
+reactpy-router = "*"
 
 [dev-packages]
 
