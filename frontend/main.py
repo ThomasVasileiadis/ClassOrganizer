@@ -3,7 +3,6 @@ from reactpy_router import route, simple, link # Import the route and link compo
 from reactpy_router.core import use_params # Import the use_params hook
 
 
-
 @component
 def root():
     return simple.router(
