@@ -3,6 +3,9 @@ from rest_framework.views import APIView
 from .models import *
 from rest_framework.response import Response
 from .serializer import *
+from django.shortcuts import render
+from django.views.generic.base import View
+from django.shortcuts import render
 
 
 class StudentView(APIView):
@@ -17,6 +20,7 @@ class StudentView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+        
     
 class TeacherView(APIView):
     def get(self, request):
@@ -95,8 +99,22 @@ class StudentObligationView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
-    
 
     
 
+def home(request):
+    return render(request, 'home.html')
 
+
+def student(request):
+    return render(request, 'student.html')
+
+def teacher(request):
+    return render(request, 'teacher.html')
+
+def course(request):
+    return render(request, 'course.html')
+
+
+def schedule(request):
+    return render(request, 'schedule.html')
