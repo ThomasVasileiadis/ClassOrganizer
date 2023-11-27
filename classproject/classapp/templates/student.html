@@ -24,7 +24,7 @@
     </nav>
     <div class="form-container">
         <h2>Student Information Form</h2>
-        <form action="/submit_student_info" method="post">
+        <form action="{% url 'student' %}" method="post">
             {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -40,19 +40,34 @@
             </div>
             <div class="form-group">
                 <label for="name">English Level:</label>
-                <input type="text" id="name" name="name" maxlength="50" required>
+                <input type="text" id="name" name="level" maxlength="50" required>
             </div>
             <div class="form-group">
                 <label for="name">Obligation Name:</label>
-                <input type="text" id="name" name="name" maxlength="50" required>
+                <input type="text" id="name" name="obligation_name" maxlength="50" required>
             </div>
             <div class="form-group">
                 <label for="datetime">Obligation Date and Time:</label>
-                <input type="datetime-local" id="datetime" name="datetime" required>
+                <input type="datetime-local" id="datetime" name="obligation_datetime" required>
             </div>
             
             <button type="submit">Submit</button>
         </form>
     </div>
+    <!-- Student Cards Container -->
+    <div class="student-cards-container">
+        {% for student in data %}
+            <div class="student-card">
+                <div class="student-info">
+                    <h3>{{ student.name }} {{ student.last_name }}</h3>
+                    <p>Phone: {{ student.phone }}</p>
+                    <p>English Level: {{ student.english_level }}</p>
+                    <p>Obligation: {{ student.obligation_name }} on {{ student.obligation_datetime }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
 </body>
+
 </html>

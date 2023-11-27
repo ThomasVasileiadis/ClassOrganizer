@@ -24,7 +24,7 @@
     </nav>
     <div class="form-container">
         <h2>Teacher Information Form</h2>
-        <form action="/submit_student_info" method="post">
+        <form action="{% url 'teacher' %}" method="post">
             {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -54,5 +54,19 @@
                         <button type="submit">Submit</button>
                     </form>
                 </div>
-            </body>
-            </html>
+
+                <!-- Teacher Cards Container -->
+    <div class="teacher-cards-container">
+        {% for teacher in data %}
+            <div class="teacher-card">
+                <div class="teacher-info">
+                    <h3>{{ teacher.name }} {{ teacher.last_name }}</h3>
+                    <p>Phone: {{ teacher.phone }}</p>
+                    <p>Working Days: {{ teacher.working_days }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

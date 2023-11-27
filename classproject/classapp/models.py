@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 
@@ -6,15 +7,17 @@ class Student(models.Model):
     student_id = models.AutoField(primary_key=True) #primary key
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=50)
     phone = models.CharField(max_length=50)
+    english_level = models.CharField(max_length=50, default=' ')
+    obligation_name = models.CharField(max_length=50, default=' ')
+    obligation_datetime = models.DateTimeField(default=datetime.now)
 
 class Teacher(models.Model):
     teacher_id = models.AutoField(primary_key=True) #primary key
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=50)
     phone = models.CharField(max_length=50)
+    working_days = models.CharField(max_length=50, default='')
 
 class Course(models.Model):
     course_id = models.AutoField(primary_key=True) #primary key
@@ -34,8 +37,8 @@ class Obligations(models.Model):
     obligation_id = models.AutoField(primary_key=True) #primary key
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=50)
-    due_date = models.DateField()
-    due_time = models.TimeField()
+    due_date = models.DateField(default=datetime.now)
+    due_time = models.TimeField(default=datetime.now)
 
 class StudentCourse(models.Model):
     student_course_id = models.AutoField(primary_key=True) #primary key
