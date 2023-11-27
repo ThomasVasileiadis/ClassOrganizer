@@ -1,73 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Student Form</title>
-        <!-- Link to your static CSS file -->
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'style.css' %}">
-    </head>
+<head>
+    <!-- Head contents remain the same -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+    <!-- Link to your static CSS file -->
+    {% load static %}
+    <link rel="stylesheet" href=" {% static 'style.css' %} ">
+</head>
 <body>
-    <header>
-        <img src="{% static 'classorganizerlogo.png' %}" alt="Logo" class="logo">
-        <h1 class="siteTitle">Class Organizer</h1>
-    </header>
-    <nav class="navbar">
-        <ul class="navbar-nav">
-            <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="nav-item"><a href="{% url 'teacher' %}">Teachers</a></li>
-            <li class="nav-item"><a href="{% url 'student' %}">Students</a></li>
-            <li class="nav-item"><a href="{% url 'course' %}">Courses</a></li>
-            <li class="nav-item"><a href="{% url 'schedule' %}">Generate Schedule</a></li>
-        </ul>
-    </nav>
-    <div class="form-container">
-        <h2>Student Information Form</h2>
-        <form action="{% url 'student' %}" method="post">
-            {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" maxlength="50" required>
-            </div>
-            <div class="form-group">
-                <label for="last_name">Last Name:</label>
-                <input type="text" id="last_name" name="last_name" maxlength="50" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone:</label>
-                <input type="text" id="phone" name="phone" maxlength="50" required>
-            </div>
-            <div class="form-group">
-                <label for="name">English Level:</label>
-                <input type="text" id="name" name="level" maxlength="50" required>
-            </div>
-            <div class="form-group">
-                <label for="name">Obligation Name:</label>
-                <input type="text" id="name" name="obligation_name" maxlength="50" required>
-            </div>
-            <div class="form-group">
-                <label for="datetime">Obligation Date and Time:</label>
-                <input type="datetime-local" id="datetime" name="obligation_datetime" required>
-            </div>
-            
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-    <!-- Student Cards Container -->
-    <div class="student-cards-container">
-        {% for student in data %}
-            <div class="student-card">
-                <div class="student-info">
-                    <h3>{{ student.name }} {{ student.last_name }}</h3>
-                    <p>Phone: {{ student.phone }}</p>
-                    <p>English Level: {{ student.english_level }}</p>
-                    <p>Obligation: {{ student.obligation_name }} on {{ student.obligation_datetime }}</p>
+    <div class="main-container">
+        <header>
+            <!-- Header contents remain the same -->
+            <img src="{% static 'classorganizerlogo.png' %}" alt="Logo" class="logo">
+            <h1 class="siteTitle">Class Organizer</h1>
+        </header>
+        <nav class="navbar">
+            <!-- Navbar contents remain the same -->
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a href="{% url 'teacher' %}">Teachers</a></li>
+                <li class="nav-item"><a href="{% url 'student' %}">Students</a></li>
+                <li class="nav-item"><a href="{% url 'course' %}">Courses</a></li>
+                <li class="nav-item"><a href="{% url 'schedule' %}">Generate Schedule</a></li>
+            </ul>
+        </nav>
+        <div class="form-container">
+            <!-- Form contents remain the same -->
+            <h2>Student Information Form</h2>
+            <form action="{% url 'student' %}" method="post">
+                {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" maxlength="50" required>
                 </div>
-            </div>
-        {% endfor %}
+                <div class="form-group">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input type="text" id="phone" name="phone" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">English Level:</label>
+                    <input type="text" id="name" name="level" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Obligation Name:</label>
+                    <input type="text" id="name" name="obligation_name" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="datetime">Obligation Date and Time:</label>
+                    <input type="datetime-local" id="datetime" name="obligation_datetime" required>
+                </div>
+                
+                <button class="student_submit_btn" type="submit">Submit</button>
+                <div>
+                    <button class="show_students_btn" type="submit" onclick="window.location.href='student_info.html'">Show Students</button>   
+                </div>
+                
+            </form>
+        </div>
     </div>
-    
 </body>
-
 </html>

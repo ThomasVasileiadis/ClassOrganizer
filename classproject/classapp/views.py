@@ -147,4 +147,12 @@ def schedule(request):
     return render(request, 'schedule.html', {'schedule': schedule})
 
 
-#fetching data from database
+def student_info(request):
+    return render(request, 'student_info.html', {'student_info': student_info})
+
+def teacher_info(request):
+    return render(request, 'teacher_info.html', {'teacher_info': teacher_info})
+
+
+def course_info(request):
+    return render(request, 'course_info.html', {'course_info': course_info})

@@ -1,37 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Student Form</title>
-        <!-- Link to your static CSS file -->
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'style.css' %}">
-    </head>
+<head>
+    <!-- Head contents remain the same -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+    <!-- Link to your static CSS file -->
+    {% load static %}
+    <link rel="stylesheet" href=" {% static 'style.css' %} ">
+</head>
 <body>
-    <header>
-        <img src="{% static 'classorganizerlogo.png' %}" alt="Logo" class="logo">
-        <h1 class="siteTitle">Class Organizer</h1>
-    </header>
-    <nav class="navbar">
-        <ul class="navbar-nav">
-            <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="nav-item"><a href="{% url 'teacher' %}">Teachers</a></li>
-            <li class="nav-item"><a href="{% url 'student' %}">Students</a></li>
-            <li class="nav-item"><a href="{% url 'course' %}">Courses</a></li>
-            <li class="nav-item"><a href="{% url 'schedule' %}">Generate Schedule</a></li>
-        </ul>
-    </nav>
-    <div class="form-container">
-        <h2>Course Information Form</h2>
-        <form action="/submit_student_info" method="post">
-            {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" maxlength="50" required>
-            </div>
-            <button type="submit">Submit</button>
-        </form>
+    <div class="main-container">
+        <header>
+            <!-- Header contents remain the same -->
+            <img src="{% static 'classorganizerlogo.png' %}" alt="Logo" class="logo">
+            <h1 class="siteTitle">Class Organizer</h1>
+        </header>
+        <nav class="navbar">
+            <!-- Navbar contents remain the same -->
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a href="{% url 'teacher' %}">Teachers</a></li>
+                <li class="nav-item"><a href="{% url 'student' %}">Students</a></li>
+                <li class="nav-item"><a href="{% url 'course' %}">Courses</a></li>
+                <li class="nav-item"><a href="{% url 'schedule' %}">Generate Schedule</a></li>
+            </ul>
+        </nav>
+        <div class="form-container">
+            <!-- Form contents remain the same -->
+            <h2>Course Information Form</h2>
+            <form action="/submit_student_info" method="post">
+                {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" maxlength="50" required>
+                </div>
+                <button class="course_submit_btn" type="submit">Submit</button>
+                <div>
+                    <button class="show_courses_btn" type="submit" onclick="window.location.href='course_info.html'">Show Courses</button>   
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 </html>

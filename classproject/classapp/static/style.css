@@ -1,110 +1,161 @@
-body {
-    background-color: gray;
-    display: flex; /* Added for flex properties to take effect */
-    justify-content: center;
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    margin: 0; /* Reset default margin */
-}
-
-.siteTitle {
-    color: red;
-    font-size: 2em;
+    height: 100vh; /* Adjust the height as needed */
+    padding-top: 50px; /* Adjust based on navbar height */
 }
 
 .navbar {
+    /* Your existing navbar styles */
+    width: 100%; /* Ensure navbar takes full width */
+    margin-bottom: 3rem;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
     background-color: #333;
-    overflow: auto;
-}
-
-.navbar-nav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-item {
-    float: left;
-}
-
-.nav-item a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-.nav-item a:hover {
-    background-color: #111;
+    color: #fff;
 }
 
 .logo {
-    height: 50px;
-    margin-right: 10px;
-    float: left;
+    height: 60px;
+    width: auto;
+}
+
+.siteTitle {
+    font-size: 2em;
+    margin: 0;
 }
 
 .form-container {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-form {
-    display: flex;
-    flex-direction: column;    
+h2 {
+    color: #333;
+    margin-bottom: 20px;
 }
 
 .form-group {
-    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #666;
+    margin-bottom: 5px;
+    color: #555;
 }
 
 .form-group input {
-    width: 100%;
-    padding: 0.75rem;
+    padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box; /* Ensures padding does not affect overall width */
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
 }
 
-.form-group input:focus {
-    outline: none;
-    border-color: #7abaff;
-    box-shadow: 0 0 0 2px rgba(58, 123, 253, 0.1);
-}
-
-button[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 1rem;
+.student_submit_btn {
+    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover, button[type="submit"]:focus {
-    background-color: #45a049;
+.teacher_submit_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.teacher-cards-container {
+.course_submit_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.show_students_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+}
+.show_courses_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.show_teachers_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.student_submit_btn:hover {
+    background-color: #0056b3;
+}
+
+
+.navbar {
+    background-color: #333;
+    padding: 10px 0;
+}
+
+.navbar-nav {
+    list-style: none;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px; /* Space between cards */
-    margin-top: 20px;
+    justify-content: space-around;
 }
 
-/* Global box-sizing for consistency */
-* {
-    box-sizing: border-box;
+.nav-item {
+    color: #fff;
+}
+
+.nav-item a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-item a:hover {
+    color: #007BFF;
 }
