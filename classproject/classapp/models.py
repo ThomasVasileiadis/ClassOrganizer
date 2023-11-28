@@ -10,7 +10,7 @@ class Student(models.Model):
     phone = models.CharField(max_length=50)
     english_level = models.CharField(max_length=50, default=' ')
     obligation_name = models.CharField(max_length=50, default=' ')
-    obligation_datetime = models.DateTimeField(default=datetime.now)
+    obligation_datetime = models.DateTimeField(null=True, blank=True)
 
 class Teacher(models.Model):
     teacher_id = models.AutoField(primary_key=True) #primary key

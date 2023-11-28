@@ -44,25 +44,39 @@
                     <input type="text" id="phone" name="phone" maxlength="50" required>
                 </div>
                 <div class="form-group">
-                    <label for="name">English Level:</label>
-                    <input type="text" id="name" name="level" maxlength="50" required>
+                    <label for="level">English Level:</label>
+                    <select id="level" name="level" required>
+                        <option value="">Select level</option>
+                        <option value="Pre-Junior">Pre-Junior</option>
+                        <option value="Junior">Junior</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="Lower">Lower</option>
+                        <option value="Profficiency">Profficiency</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Monthly Pay:</label>
+                    <input type="number" id="monthly-pay" name="monthly-pay" maxlength="50" required>
                 </div>
                 <div class="form-group">
                     <label for="name">Obligation Name:</label>
-                    <input type="text" id="name" name="obligation_name" maxlength="50" required>
+                    <input type="text" id="name" name="obligation_name" maxlength="50">
                 </div>
                 <div class="form-group">
                     <label for="datetime">Obligation Date and Time:</label>
-                    <input type="datetime-local" id="datetime" name="obligation_datetime" required>
+                    <input type="datetime-local" id="datetime" name="obligation_datetime">
                 </div>
                 
                 <button class="student_submit_btn" type="submit">Submit</button>
                 <div>
                     <button class="show_students_btn" type="submit" onclick="window.location.href='student_info.html'">Show Students</button>   
                 </div>
-                
             </form>
-        </div>
+        </div>        
     </div>
 </body>
 </html>
