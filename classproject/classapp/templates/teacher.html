@@ -26,41 +26,20 @@
                 <li class="nav-item"><a href="{% url 'schedule' %}">Generate Schedule</a></li>
             </ul>
         </nav>
-        <div class="form-container">
-            <!-- Form contents remain the same -->
-            <h2>Student Information Form</h2>
-            <form action="{% url 'teacher' %}" method="post">
-                {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" maxlength="50" required>
-                </div>
-                <div class="form-group">
-                    <label for="last_name">Last Name:</label>
-                    <input type="text" id="last_name" name="last_name" maxlength="50" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone:</label>
-                    <input type="text" id="phone" name="phone" maxlength="50" required>
-                </div>
-                <div class="form-group">
-                    <label for="working_days">Working days:</label>
-                    <div class="select-wrapper">
-                        <select id="working_days" name="working_days" multiple required>
-                            <option value="monday">Monday</option>
-                            <option value="tuesday">Tuesday</option>
-                            <option value="wednesday">Wednesday</option>
-                            <option value="thursday">Thursday</option>
-                            <option value="friday">Friday</option>
-                        </select>
-                        <div class="select-arrow"></div>
-                    </div>
-                </div>
-                <button class="teacher_submit_btn"type="submit">Submit</button>
-                <div>
-                    <button class="show_teachers_btn" type="submit" onclick="window.location.href='teacher_info'">Show Teachers</button>   
-                </div>
-            </form>
+        <h1>Teachers List</h1>
+        <button class="add_teachers_btn" type="submit" onclick="window.location.href='addteacher/'">Add Teacher</button>   
+        <div class="students-container">
+            {% for teacher in data %}
+            <div class="student-box">
+                <p>ID: {{ teacher.teacher_id }}</p>
+                <p>Name: {{ teacher.name }}</p>
+                <p>Last Name: {{ teacher.last_name }}</p>
+                <p>Phone: {{ teacher.phone }}</p>
+                <p>Working Days: {{ teacher.working_days }}</p>
+                <button class="edit-btn">Edit</button>
+                <button class="remove-btn">Remove</button>
+            </div>
+            {% endfor %}
         </div>
 </body>
 </html>

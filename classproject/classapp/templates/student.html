@@ -26,57 +26,22 @@
                 <li class="nav-item"><a href="{% url 'schedule' %}">Generate Schedule</a></li>
             </ul>
         </nav>
-        <div class="form-container">
-            <!-- Form contents remain the same -->
-            <h2>Student Information Form</h2>
-            <form action="{% url 'student' %}" method="post">
-                {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" maxlength="50" required>
-                </div>
-                <div class="form-group">
-                    <label for="last_name">Last Name:</label>
-                    <input type="text" id="last_name" name="last_name" maxlength="50" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone:</label>
-                    <input type="text" id="phone" name="phone" maxlength="50" required>
-                </div>
-                <div class="form-group">
-                    <label for="level">English Level:</label>
-                    <select id="level" name="level" required>
-                        <option value="">Select level</option>
-                        <option value="Pre-Junior">Pre-Junior</option>
-                        <option value="Junior">Junior</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="D">D</option>
-                        <option value="E">E</option>
-                        <option value="Lower">Lower</option>
-                        <option value="Profficiency">Profficiency</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Monthly Pay:</label>
-                    <input type="number" id="monthly-pay" name="monthly-pay" maxlength="50" required>
-                </div>
-                <div class="form-group">
-                    <label for="name">Obligation Name:</label>
-                    <input type="text" id="name" name="obligation_name" maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label for="datetime">Obligation Date and Time:</label>
-                    <input type="datetime-local" id="datetime" name="obligation_datetime">
-                </div>
-                
-                <button class="student_submit_btn" type="submit">Submit</button>
-                <div>
-                    <button class="show_students_btn" type="submit" onclick="window.location.href='student_info/'">Show Students</button>   
-                </div>
-            </form>
-        </div>        
-    </div>
+        <h1>Students List</h1>
+        <button class="add_students_btn" type="submit" onclick="window.location.href='addstudent/'">Add Student</button>   
+        <div class="students-container">
+            {% for student in data %}
+            <div class="student-box">
+                <p>ID: {{ student.student_id }}</p>
+                <p>Name: {{ student.name }}</p>
+                <p>Last Name: {{ student.last_name }}</p>
+                <p>Phone: {{ student.phone }}</p>
+                <p>English Level: {{ student.english_level }}</p>
+                <p>Obligation Name: {{ student.obligation_name }}</p>
+                <p>Obligation Date: {{ student.obligation_datetime|date:"d M Y H:i" }}</p>
+                <button class="edit-btn">Edit</button>
+                <button class="remove-btn">Remove</button>
+            </div>
+            {% endfor %}
+        </div>
 </body>
 </html>

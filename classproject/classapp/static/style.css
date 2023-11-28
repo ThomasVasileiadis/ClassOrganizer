@@ -272,7 +272,63 @@ h2 {
     }
 }
 
-.show_students_btn {
+.add_students_btn {
+    margin-top: 0.5rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF; /* Primary button color */
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transition for multiple properties */
+    font-weight: bold; /* Makes text bold */
+    letter-spacing: 1px; /* Slightly space out the letters */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+
+    /* Hover effect */
+    &:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for a 'lifting' effect */
+        transform: translateY(-2px); /* Slightly raise the button */
+    }
+
+    /* Active/Clicked effect */
+    &:active {
+        background-color: #004080; /* Even darker color for a pressed effect */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Smaller shadow to simulate being pressed */
+        transform: translateY(1px); /* Offset for the pressed effect */
+    }
+}
+
+.add_teachers_btn {
+    margin-top: 0.5rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF; /* Primary button color */
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transition for multiple properties */
+    font-weight: bold; /* Makes text bold */
+    letter-spacing: 1px; /* Slightly space out the letters */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+
+    /* Hover effect */
+    &:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for a 'lifting' effect */
+        transform: translateY(-2px); /* Slightly raise the button */
+    }
+
+    /* Active/Clicked effect */
+    &:active {
+        background-color: #004080; /* Even darker color for a pressed effect */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Smaller shadow to simulate being pressed */
+        transform: translateY(1px); /* Offset for the pressed effect */
+    }
+}
+
+.go_back_btn{
     margin-top: 0.5rem;
     padding: 10px 20px;
     border: none;
@@ -433,42 +489,44 @@ h2 {
     color: #dcdcdc;
 }
 
-.students-section {
-    margin: 20px;
-}
 
-.students-header {
+/* STUDENT FORM */
+
+.students-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    flex-wrap: wrap; /* Enable wrapping to a new line */
+    gap: 20px;
+    padding: 20px;
 }
 
-.students-title {
-    margin: 0;
-}
-
-.students-list {
-    display: grid;
-    grid-gap: 20px;
-}
-
-.student-card {
-    border: 1px solid #ddd;
+.student-box {
+    border: 1px solid #ccc;
     padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    min-width: 200px; /* Minimum width for each box */
+    max-width: calc(100% - 40px); /* Ensure it fits in container with padding */
+    box-sizing: border-box; /* Include padding and border in the width */
 }
 
-.student-info p {
+.student-box p {
     margin: 5px 0;
 }
 
-.student-actions {
-    margin-top: 10px;
-    text-align: right;
+.edit-btn, .remove-btn {
+    padding: 5px 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.edit_btn, .delete_btn {
-    margin-left: 5px;
+.edit-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.remove-btn {
+    background-color: #f44336;
+    color: white;
 }

@@ -21,7 +21,7 @@ from classapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.home, name='home'),
+    path('', views.home, name='home'),
     path('classapp/', include('classapp.urls')),  # Include classapp URLs
 ]
 

@@ -11,10 +11,7 @@ class Student(models.Model):
     english_level = models.CharField(max_length=50, default=' ')
     obligation_name = models.CharField(max_length=50, default=' ')
     obligation_datetime = models.DateTimeField(null=True, blank=True)
-
-    def __str__(self):
-        return (self.name, self.last_name, self.phone, self.english_level, self.obligation_name, self.obligation_datetime)
-
+    
 class Teacher(models.Model):
     teacher_id = models.AutoField(primary_key=True) #primary key
     name = models.CharField(max_length=50)
