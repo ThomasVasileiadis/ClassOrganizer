@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .serializer import *
 from django.views.generic.base import View
 from .forms import StudentForm
+from .models import Student
 
 
 def home(request):
@@ -30,10 +31,11 @@ def student(request):
     context = {'data': data}
     return render(request, 'student.html', context)
 
-def student_info(request):
+def student_info(request):   
     data = Student.objects.all()
     context = {'data': data}
-    return render(request, 'student_info.html', context)
+    return render(request, 'studentinfo.html', context)
+    
     
 
 

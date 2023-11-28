@@ -432,3 +432,43 @@ h2 {
 .prev:hover, .next:hover {
     color: #dcdcdc;
 }
+
+.students-section {
+    margin: 20px;
+}
+
+.students-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.students-title {
+    margin: 0;
+}
+
+.students-list {
+    display: grid;
+    grid-gap: 20px;
+}
+
+.student-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.student-info p {
+    margin: 5px 0;
+}
+
+.student-actions {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.edit_btn, .delete_btn {
+    margin-left: 5px;
+}
