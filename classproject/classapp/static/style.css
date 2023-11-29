@@ -28,34 +28,44 @@
     margin-top: 1rem;
     width: 100%;
     margin-bottom: 3rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    font-family: 'Arial', sans-serif;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-family: "Arial", sans-serif;
     border-radius: 5px;
-}
-
-.navbar-nav {
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  
+  .navbar-nav {
     list-style: none;
     display: flex;
     justify-content: space-around;
     padding: 0;
-}
-
-.nav-item {
+  }
+  
+  .nav-item {
     color: #fff;
     text-transform: uppercase;
     font-weight: bold;
-}
-
-.nav-item a {
+    transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2); /* Initial soft shadow */
+  }
+  
+  .nav-item:hover {
+    color: #ff0000;
+    box-shadow: 0 0 0 5px rgba(255, 0, 0, 0.5); /* Enhanced shadow on hover */
+    transform: scale(1.1); /* Zoom effect on hover */
+  }
+  
+  .nav-item a {
     color: #fff;
     text-decoration: none;
     padding: 5px 10px;
     position: relative; /* Needed for absolute positioning of pseudo-element */
     display: inline-block; /* Ensures proper spacing and positioning */
-}
-
-.nav-item a::after {
-    content: '';
+  }
+  
+  .nav-item a::after {
+    content: "";
     position: absolute;
     width: 0;
     height: 2px;
@@ -63,13 +73,14 @@
     bottom: 0;
     left: 50%;
     transition: width 0.3s ease, left 0.3s ease; /* Animates both width and horizontal position */
-}
-
-.nav-item a:hover::after {
+  }
+  
+  .nav-item a:hover::after {
     width: 100%; /* Full width on hover */
     left: 0; /* Aligns to the left edge on hover */
-}
+  }
 
+  
 
 header {
     display: flex;
@@ -497,6 +508,7 @@ h2 {
     flex-wrap: wrap; /* Enable wrapping to a new line */
     gap: 20px;
     padding: 20px;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 .student-box {
@@ -504,29 +516,23 @@ h2 {
     padding: 15px;
     border-radius: 10px;
     background-color: #f9f9f9;
-    min-width: 200px; /* Minimum width for each box */
-    max-width: calc(100% - 40px); /* Ensure it fits in container with padding */
-    box-sizing: border-box; /* Include padding and border in the width */
-}
+    width: 300px; /* Fixed width for all boxes */
+    height: 200px; /* Fixed height for all boxes */
+    box-sizing: border-box;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .student-box:hover {
+    font-weight: bold;
+    transform: scale(1.2);
+  }
 
 .student-box p {
     margin: 5px 0;
-}
+    font-family: sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+  }
 
-.edit-btn, .remove-btn {
-    padding: 5px 10px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.edit-btn {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.remove-btn {
-    background-color: #f44336;
-    color: white;
-}

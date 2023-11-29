@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import HttpResponseNotFound
+from django.shortcuts import redirect, render
 from rest_framework.views import APIView
 from .models import *
 from rest_framework.response import Response
@@ -49,11 +50,6 @@ def addstudent(request):
     context = {'data': data}
     return render(request, 'addstudent.html', context)
 
-    
-    
-    
-
-
 def teacher(request):
     if request.method == 'POST':
         teacher_name = request.POST.get('name')
@@ -87,6 +83,7 @@ def addteacher(request):
     context = {'data': data}
 
     return render(request, 'addteacher.html', context)
+
 
 def course(request):
     return render(request, 'course.html', {'course': course})

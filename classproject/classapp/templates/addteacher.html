@@ -26,13 +26,11 @@
                 <li class="nav-item"><a href="{% url 'schedule' %}">Generate Schedule</a></li>
             </ul>
         </nav>
-        <!-- Form contents remain the same -->
-        {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
+        {% csrf_token %} 
             <div class="form-container">
-                <!-- Form contents remain the same -->
                 <h2>Teacher Information Form</h2>
                 <form action="{% url 'teacher' %}" method="post">
-                    {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
+                    {% csrf_token %} 
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" maxlength="50" required>

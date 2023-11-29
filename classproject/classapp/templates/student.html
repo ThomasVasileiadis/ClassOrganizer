@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Head contents remain the same -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Form</title>
-    <!-- Link to your static CSS file -->
     {% load static %}
-    <link rel="stylesheet" href=" {% static 'style.css' %} ">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
     <div class="main-container">
         <header>
-            <!-- Header contents remain the same -->
             <img src="{% static 'classorganizerlogo.png' %}" alt="Logo" class="logo">
             <h1 class="siteTitle">Class Organizer</h1>
         </header>
         <nav class="navbar">
-            <!-- Navbar contents remain the same -->
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
                 <li class="nav-item"><a href="{% url 'teacher' %}">Teachers</a></li>
@@ -31,17 +27,15 @@
         <div class="students-container">
             {% for student in data %}
             <div class="student-box">
-                <p>ID: {{ student.student_id }}</p>
                 <p>Name: {{ student.name }}</p>
                 <p>Last Name: {{ student.last_name }}</p>
                 <p>Phone: {{ student.phone }}</p>
                 <p>English Level: {{ student.english_level }}</p>
                 <p>Obligation Name: {{ student.obligation_name }}</p>
                 <p>Obligation Date: {{ student.obligation_datetime|date:"d M Y H:i" }}</p>
-                <button class="edit-btn">Edit</button>
-                <button class="remove-btn">Remove</button>
             </div>
             {% endfor %}
         </div>
+    </div>
 </body>
 </html>
