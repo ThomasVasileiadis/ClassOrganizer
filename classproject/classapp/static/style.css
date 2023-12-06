@@ -517,16 +517,18 @@ h2 {
     border-radius: 10px;
     background-color: #f9f9f9;
     width: 300px; /* Fixed width for all boxes */
-    height: 200px; /* Fixed height for all boxes */
     box-sizing: border-box;
     box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
-  }
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
   
-  .student-box:hover {
+.student-box:hover {
     font-weight: bold;
     transform: scale(1.2);
-  }
+}
 
 .student-box p {
     margin: 5px 0;
@@ -534,5 +536,25 @@ h2 {
     font-size: 16px;
     line-height: 1.5;
     color: #333;
-  }
+}
 
+
+.edit_student_btn {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px; /* Reduced padding */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px; /* Reduced font size */
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    border-radius: 5px; /* Added border-radius */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Added soft black outline */
+}
+
+.edit_student_btn:hover {
+    background-color: #45a049;
+}

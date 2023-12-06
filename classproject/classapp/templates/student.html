@@ -23,7 +23,7 @@
             </ul>
         </nav>
         <h1>Students List</h1>
-        <button class="add_students_btn" type="submit" onclick="window.location.href='addstudent/'">Add Student</button>   
+        <button class="add_students_btn" type="submit" onclick="window.location.href='addstudent/'">➕ Add Student</button>   
         <div class="students-container">
             {% for student in data %}
             <div class="student-box">
@@ -31,10 +31,16 @@
                 <p>Last Name: {{ student.last_name }}</p>
                 <p>Phone: {{ student.phone }}</p>
                 <p>English Level: {{ student.english_level }}</p>
+                <p>Monthly Pay: {{ student.monthly_pay }} &euro;</p>
                 <p>Obligation Name: {{ student.obligation_name }}</p>
                 <p>Obligation Date: {{ student.obligation_datetime|date:"d M Y H:i" }}</p>
+                <div class="card">
+                    <button class="edit_student_btn" type="button" onclick="window.location.href='{% url "editstudent" student.student_id %}'">✎ Edit Student</button>
+                </div>
             </div>
+            
             {% endfor %}
+            
         </div>
     </div>
 </body>

@@ -11,6 +11,7 @@ class Student(models.Model):
     english_level = models.CharField(max_length=50, default=' ')
     obligation_name = models.CharField(max_length=50, default=' ')
     obligation_datetime = models.DateTimeField(null=True, blank=True)
+    monthly_pay = models.CharField(max_length=50, default=' ')
     
 class Teacher(models.Model):
     teacher_id = models.AutoField(primary_key=True) #primary key

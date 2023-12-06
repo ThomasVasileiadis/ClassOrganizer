@@ -24,51 +24,40 @@
         </nav>
         <div class="form-container">
             <h2>Student Information Form</h2>
-            <form action="{% url 'student' %}" method="post">
+            <form action="{% url 'editstudent' student.student_id %}" method="post">
                 {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
                 <div class="form-group">
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" maxlength="50" required>
+                    <input type="text" id="name" name="name" maxlength="50" required value="{{ student.name }}">
                 </div>
                 <div class="form-group">
                     <label for="last_name">Last Name:</label>
-                    <input type="text" id="last_name" name="last_name" maxlength="50" required>
+                    <input type="text" id="last_name" name="last_name" maxlength="50" required value="{{ student.last_name }}">
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone:</label>
-                    <input type="text" id="phone" name="phone" maxlength="50" required>
+                    <input type="text" id="phone" name="phone" maxlength="50" required value="{{ student.phone }}">
                 </div>
                 <div class="form-group">
-                    <label for="level">English Level:</label>
-                    <select id="level" name="level" required>
-                        <option value="">Select level</option>
-                        <option value="Pre-Junior">Pre-Junior</option>
-                        <option value="Junior">Junior</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="D">D</option>
-                        <option value="E">E</option>
-                        <option value="Lower">Lower</option>
-                        <option value="Profficiency">Profficiency</option>
-                    </select>
+                    <label for="english_level">English Level:</label>
+                    <input type="text" id="english_level" name="english_level" required value="{{ student.english_level }}">
                 </div>
                 <div class="form-group">
                     <label for="phone">Monthly Pay:</label>
-                    <input type="number" id="monthly_pay" name="monthly_pay" maxlength="50" required>
+                    <input type="number" id="monthly_pay" name="monthly_pay" maxlength="50" required value="{{ student.monthly_pay }}">
                 </div>
                 <div class="form-group">
                     <label for="name">Obligation Name:</label>
-                    <input type="text" id="name" name="obligation_name" maxlength="50">
+                    <input type="text" id="name" name="obligation_name" maxlength="50" value="{{ student.obligation_name }}">
                 </div>
                 <div class="form-group">
                     <label for="datetime">Obligation Date and Time:</label>
-                    <input type="datetime-local" id="datetime" name="obligation_datetime">
+                    <input type="datetime-local" id="datetime" name="obligation_datetime" value="{{ student.obligation_datetime|date:'Y-m-d\TH:i' }}">
                 </div>
                 
-                <button class="student_submit_btn" type="submit">✔️ Submit</button>
+                <button class="student_submit_btn" type="submit">Update</button>
                 <div>
-                    <button class="go_back_btn" onclick="history.back()">⬅️ Go Back</button>  
+                    <button class="go_back_btn" onclick="history.back()">Go Back</button>  
                 </div>
             </form>
         </div>        
