@@ -337,6 +337,35 @@ h2 {
     }
 }
 
+.add_course_btn {
+    margin-top: 0.5rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF; /* Primary button color */
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transition for multiple properties */
+    font-weight: bold; /* Makes text bold */
+    letter-spacing: 1px; /* Slightly space out the letters */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    
+
+    /* Hover effect */
+    &:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for a 'lifting' effect */
+        transform: translateY(-2px); /* Slightly raise the button */
+    }
+
+    /* Active/Clicked effect */
+    &:active {
+        background-color: #004080; /* Even darker color for a pressed effect */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Smaller shadow to simulate being pressed */
+        transform: translateY(1px); /* Offset for the pressed effect */
+    }
+}
+
 .go_back_btn{
     margin-top: 0.5rem;
     padding: 10px 20px;
@@ -569,6 +598,62 @@ h2 {
     /* Hover effect */
     &:hover {
         background-color: #85690c; /* Darker shade on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for a 'lifting' effect */
+        transform: translateY(-2px); /* Slightly raise the button */
+    }
+
+    /* Active/Clicked effect */
+    &:active {
+        background-color: #ff0000; /* Even darker color for a pressed effect */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Smaller shadow to simulate being pressed */
+        transform: translateY(1px); /* Offset for the pressed effect */
+    }
+}
+
+.edit_course_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #c7d411; /* Primary button color */
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transition for multiple properties */
+    font-weight: bold; /* Makes text bold */
+    letter-spacing: 1px; /* Slightly space out the letters */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    
+
+    /* Hover effect */
+    &:hover {
+        background-color: #85690c; /* Darker shade on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for a 'lifting' effect */
+        transform: translateY(-2px); /* Slightly raise the button */
+    }
+
+    /* Active/Clicked effect */
+    &:active {
+        background-color: #ff0000; /* Even darker color for a pressed effect */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Smaller shadow to simulate being pressed */
+        transform: translateY(1px); /* Offset for the pressed effect */
+    }
+}
+
+.delete_course_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #c41b1b; /* Primary button color */
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transition for multiple properties */
+    font-weight: bold; /* Makes text bold */
+    letter-spacing: 1px; /* Slightly space out the letters */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    
+
+    /* Hover effect */
+    &:hover {
+        background-color: #660005; /* Darker shade on hover */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for a 'lifting' effect */
         transform: translateY(-2px); /* Slightly raise the button */
     }

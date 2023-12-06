@@ -8,6 +8,8 @@ from django.views.generic.base import View
 from .forms import StudentForm
 from .models import Student
 from .forms import TeacherForm
+from .models import Course
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def home(request):
@@ -162,7 +164,58 @@ def addteacher(request):
 
 
 def course(request):
-    return render(request, 'course.html', {'course': course})
+    if request.method == 'POST':
+        course_name = request.POST.get('name')
+        course_code = request.POST.get('code')
+        course_description = request.POST.get('description')
+        course_teacher_id = request.POST.get('teacher_id')
+
+        try:
+            teacher = Teacher.objects.get(id=course_teacher_id)
+            course = Course(name=course_name, code=course_code, description=course_description, teacher=teacher)
+            course.save()
+        except ObjectDoesNotExist:
+            pass
+
+    data = Course.objects.all()
+    context = {'data': data}
+
+    return render(request, 'course.html', context)
+
+def addcourse(request):
+    if request.method == 'POST':
+        course_name = request.POST.get('name')
+        course_code = request.POST.get('code')
+        course_description = request.POST.get('description')
+        course_teacher = request.POST.get('teacher_id')
+
+        course = Course(name=course_name, code=course_code, description=course_description, teacher_id=course_teacher)
+        course.save()
+
+    data = Course.objects.all()
+    teachers = Teacher.objects.all()  # query all teachers
+    context = {'data': data, 'teachers': teachers}  # add teachers to the context
+
+    return render(request, 'addcourse.html', context)
+
+def edit_course(request, course_id):
+    course = get_object_or_404(Course, course_id=course_id)  # Make sure you are using the correct field name here
+
+    if request.method == 'POST':
+        # Update the course details
+        course.name = request.POST.get('name')
+        course.code = request.POST.get('code')
+        course.description = request.POST.get('description')
+        course.teacher_id = request.POST.get('teacher_id')
+        course.save()
+
+    context = {'course': course}
+    return render(request, 'editcourse.html', context)
+
+def delete_course(request, course_id):
+    course = get_object_or_404(Course, course_id=course_id)  # Use course_id instead of id
+    course.delete()
+    return redirect('course')
 
 
 def schedule(request):

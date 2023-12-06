@@ -25,7 +25,7 @@ class Course(models.Model):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=50)
     description = models.CharField(max_length=50)
-    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
 class Schedule(models.Model):
     schedule_id = models.AutoField(primary_key=True) #primary key
