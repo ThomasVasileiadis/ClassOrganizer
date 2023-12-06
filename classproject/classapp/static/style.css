@@ -118,11 +118,6 @@ header {
     letter-spacing: 2px; /* Increases spacing between letters for readability */
     transition: all 0.3s ease; /* Smooth transition for hover effects */
 
-    /* Subtle animation on hover */
-    &:hover {
-        color: #FF5733; /* Change color on hover */
-        transform: scale(1.05); /* Slightly enlarges the text */
-    }
 }
 
 /* Optional: Add a gradient effect */
@@ -213,6 +208,7 @@ h2 {
     font-weight: bold; /* Makes text bold */
     letter-spacing: 1px; /* Slightly space out the letters */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 
     /* Hover effect */
     &:hover {
@@ -295,6 +291,7 @@ h2 {
     font-weight: bold; /* Makes text bold */
     letter-spacing: 1px; /* Slightly space out the letters */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    
 
     /* Hover effect */
     &:hover {
@@ -323,6 +320,7 @@ h2 {
     font-weight: bold; /* Makes text bold */
     letter-spacing: 1px; /* Slightly space out the letters */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    
 
     /* Hover effect */
     &:hover {
@@ -519,42 +517,127 @@ h2 {
     width: 300px; /* Fixed width for all boxes */
     box-sizing: border-box;
     box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
   
-.student-box:hover {
-    font-weight: bold;
-    transform: scale(1.2);
-}
 
-.student-box p {
-    margin: 5px 0;
-    font-family: sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #333;
-}
 
 
 .edit_student_btn {
-    background-color: #4CAF50; /* Green */
+    padding: 10px 20px;
     border: none;
+    border-radius: 5px;
+    background-color: #c7d411; /* Primary button color */
     color: white;
-    padding: 10px 20px; /* Reduced padding */
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px; /* Reduced font size */
-    margin: 4px 2px;
     cursor: pointer;
-    transition-duration: 0.4s;
-    border-radius: 5px; /* Added border-radius */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Added soft black outline */
+    transition: all 0.3s ease; /* Transition for multiple properties */
+    font-weight: bold; /* Makes text bold */
+    letter-spacing: 1px; /* Slightly space out the letters */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    
+
+    /* Hover effect */
+    &:hover {
+        background-color: #85690c; /* Darker shade on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for a 'lifting' effect */
+        transform: translateY(-2px); /* Slightly raise the button */
+    }
+
+    /* Active/Clicked effect */
+    &:active {
+        background-color: #ff0000; /* Even darker color for a pressed effect */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Smaller shadow to simulate being pressed */
+        transform: translateY(1px); /* Offset for the pressed effect */
+    }
 }
 
-.edit_student_btn:hover {
-    background-color: #45a049;
+.edit_teacher_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #c7d411; /* Primary button color */
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transition for multiple properties */
+    font-weight: bold; /* Makes text bold */
+    letter-spacing: 1px; /* Slightly space out the letters */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    
+
+    /* Hover effect */
+    &:hover {
+        background-color: #85690c; /* Darker shade on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for a 'lifting' effect */
+        transform: translateY(-2px); /* Slightly raise the button */
+    }
+
+    /* Active/Clicked effect */
+    &:active {
+        background-color: #ff0000; /* Even darker color for a pressed effect */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Smaller shadow to simulate being pressed */
+        transform: translateY(1px); /* Offset for the pressed effect */
+    }
+}
+
+.delete_student_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #c41b1b; /* Primary button color */
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transition for multiple properties */
+    font-weight: bold; /* Makes text bold */
+    letter-spacing: 1px; /* Slightly space out the letters */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    
+
+    /* Hover effect */
+    &:hover {
+        background-color: #660005; /* Darker shade on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for a 'lifting' effect */
+        transform: translateY(-2px); /* Slightly raise the button */
+    }
+
+    /* Active/Clicked effect */
+    &:active {
+        background-color: #ff0000; /* Even darker color for a pressed effect */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Smaller shadow to simulate being pressed */
+        transform: translateY(1px); /* Offset for the pressed effect */
+    }
+}
+
+.delete_teacher_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #c41b1b; /* Primary button color */
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transition for multiple properties */
+    font-weight: bold; /* Makes text bold */
+    letter-spacing: 1px; /* Slightly space out the letters */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    
+
+    /* Hover effect */
+    &:hover {
+        background-color: #660005; /* Darker shade on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow for a 'lifting' effect */
+        transform: translateY(-2px); /* Slightly raise the button */
+    }
+
+    /* Active/Clicked effect */
+    &:active {
+        background-color: #ff0000; /* Even darker color for a pressed effect */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Smaller shadow to simulate being pressed */
+        transform: translateY(1px); /* Offset for the pressed effect */
+    }
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
 }

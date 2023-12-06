@@ -31,6 +31,10 @@
                 <p>Last Name: {{ teacher.last_name }}</p>
                 <p>Phone: {{ teacher.phone }}</p>
                 <p>Working Days: {{ teacher.working_days }}</p>
+                <div class="button-container">
+                    <button class="edit_teacher_btn" type="button" onclick="window.location.href='{% url "editteacher" teacher.teacher_id %}'">✎ Edit</button>
+                    <button class="delete_teacher_btn" type="button" onclick="window.location.href='{% url "deleteteacher" teacher.teacher_id %}'">🗑️ Delete</button>
+                </div>
             </div>
             {% endfor %}
         </div>

@@ -34,11 +34,12 @@
                 <p>Monthly Pay: {{ student.monthly_pay }} &euro;</p>
                 <p>Obligation Name: {{ student.obligation_name }}</p>
                 <p>Obligation Date: {{ student.obligation_datetime|date:"d M Y H:i" }}</p>
-                <div class="card">
-                    <button class="edit_student_btn" type="button" onclick="window.location.href='{% url "editstudent" student.student_id %}'">✎ Edit Student</button>
+                <div class="button-container">
+                    <button class="edit_student_btn" type="button" onclick="window.location.href='{% url "editstudent" student.student_id %}'">✎ Edit</button>
+                    <button class="delete_student_btn" type="button" onclick="window.location.href='{% url "deletestudent" student.student_id %}'">🗑️ Delete</button>
                 </div>
             </div>
-            
+                
             {% endfor %}
             
         </div>

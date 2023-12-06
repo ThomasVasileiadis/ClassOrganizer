@@ -7,6 +7,7 @@ from .serializer import *
 from django.views.generic.base import View
 from .forms import StudentForm
 from .models import Student
+from .forms import TeacherForm
 
 
 def home(request):
@@ -89,7 +90,11 @@ def editstudent(request, student_id):
     print(f"Form errors: {form.errors}")
     return render(request, 'editstudent.html', {'form': form, 'student': student})
 
-
+def deletestudent(request, student_id):
+    student = get_object_or_404(Student, student_id=student_id)
+    student.delete()
+    students = Student.objects.all()
+    return render(request, 'student.html', {'data': students})
 
 def teacher(request):
     if request.method == 'POST':
@@ -107,6 +112,36 @@ def teacher(request):
     context = {'data': data}
 
     return render(request, 'teacher.html', context)
+
+def editteacher(request, teacher_id):
+    teacher = get_object_or_404(Teacher, teacher_id=teacher_id)
+    print(f"Retrieved teacher: {teacher}")
+    if request.method == 'POST':
+        form = TeacherForm(request.POST, instance=teacher)
+        if form.is_valid():
+            teacher = form.save(commit=False)  # Get an instance of the model without saving it to the database
+            teacher.name = form.cleaned_data['name']
+            teacher.last_name = form.cleaned_data['last_name']
+            teacher.phone = form.cleaned_data['phone']
+            teacher.working_days = ','.join(request.POST.getlist('working_days'))  # Get a list of selected days
+
+            # Save the updated teacher object to the database
+            teacher.save()
+            print(f"Updated teacher: {teacher}")
+
+            teachers = Teacher.objects.all()
+            return render(request, 'teacher.html', {'teacher_id': teacher.teacher_id, 'data': teachers})
+    else:
+        form = TeacherForm(instance=teacher)
+    print(f"Form errors: {form.errors}")
+    return render(request, 'editteacher.html', {'form': form, 'teacher': teacher})
+
+def deleteteacher(request, teacher_id):
+    teacher = get_object_or_404(Teacher, teacher_id=teacher_id)
+    teacher.delete()
+    teachers = Teacher.objects.all()
+    return render(request, 'teacher.html', {'data': teachers})
+
 
 def addteacher(request):
     if request.method == 'POST':
