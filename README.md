@@ -31,7 +31,7 @@ Download Class Organizer today and experience the future of school scheduling.
 
 ## Installation
 
-Install my-project with npm
+Install project with these steps:
 
 ```bash
   git clone https://github.com/ThomasVasileiadis/ClassOrganizer
