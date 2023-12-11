@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Head contents remain the same -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Form</title>
+    <!-- Link to your static CSS file -->
     {% load static %}
     <link rel="stylesheet" href=" {% static 'style.css' %} ">
 </head>
+
 <body>
     <div class="main-container">
         <header>
+            <!-- Header contents remain the same -->
             <img src="{% static 'classorganizerlogo.png' %}" alt="Logo" class="logo">
             <h1 class="siteTitle">Class Organizer</h1>
         </header>
         <nav class="navbar">
+            <!-- Navbar contents remain the same -->
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
                 <li class="nav-item"><a href="{% url 'teacher' %}">Teachers</a></li>
@@ -22,42 +28,37 @@
                 <li class="nav-item"><a href="{% url 'schedule' %}">Generate Schedule</a></li>
             </ul>
         </nav>
-        {% csrf_token %} 
-            <div class="form-container">
-                <h2>Course Information Form</h2>
-                <form action="{% url 'editteacher' teacher.teacher_id %}" method="post">
-                    {% csrf_token %} 
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" maxlength="50" required value="{{ teacher.name }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="last_name">Last Name:</label>
-                        <input type="text" id="last_name" name="last_name" maxlength="50" required value="{{ teacher.last_name }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone:</label>
-                        <input type="text" id="phone" name="phone" maxlength="50" required value="{{ teacher.phone }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="working_days">Working days:</label>
-                        <div class="select-wrapper">
-                            <select id="working_days" name="working_days" multiple required>
-                                <option value="monday" {% if "monday" in teacher.working_days %}selected{% endif %}>Monday</option>
-                                <option value="tuesday" {% if "tuesday" in teacher.working_days %}selected{% endif %}>Tuesday</option>
-                                <option value="wednesday" {% if "wednesday" in teacher.working_days %}selected{% endif %}>Wednesday</option>
-                                <option value="thursday" {% if "thursday" in teacher.working_days %}selected{% endif %}>Thursday</option>
-                                <option value="friday" {% if "friday" in teacher.working_days %}selected{% endif %}>Friday</option>
-                            </select>
-                            <div class="select-arrow"></div>
-                        </div>
-                    </div>
-                    <button class="teacher_submit_btn"type="submit">Submit</button>
-                    <div>
-                        <button class="go_back_btn" onclick="history.back()">Go Back</button>   
-                    </div>
-                </form>
-            </div>         
+        <div class="form-container">
+            <h2>Course Information Form</h2>
+            <form action="{% url 'editcourse' course.course_id %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Course Name:</label>
+                    <input type="text" id="name" name="name" value="{{ course.name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="code">Course Code:</label>
+                    <input type="text" id="code" name="code" value="{{ course.code }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Course Description:</label>
+                    <input type="text" id="description" name="description" value="{{ course.description }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="teacher">Teacher:</label>
+                    <select name="teacher" id="teacher">
+                        {% for teacher in teachers %}
+                        <option value="{{ teacher.teacher_id }}" {% if teacher.teacher_id == course.teacher_id %}selected{% endif %}>{{ teacher.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button class="course_submit_btn" type="submit">Update</button>
+                <div>
+                    <button class="go_back_btn" onclick="history.back()">Go Back</button>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
+
 </html>

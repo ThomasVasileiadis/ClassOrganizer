@@ -1,6 +1,7 @@
 from django import forms
 from .models import Student
 from .models import Teacher
+from .models import Course
 
 class StudentForm(forms.ModelForm):
     class Meta:
@@ -18,3 +19,19 @@ class TeacherForm(forms.ModelForm):
     class Meta:
         model = Teacher
         fields = ['name', 'last_name', 'phone', 'working_days']
+
+
+from django import forms
+from .models import Course, Teacher
+
+class CourseForm(forms.ModelForm):
+    teacher = forms.ModelChoiceField(queryset=Teacher.objects.all())  # Add this line
+
+    class Meta:
+        model = Course
+        fields = ['name', 'code', 'description', 'teacher']
+
+    def __init__(self, *args, **kwargs):
+        super(CourseForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['teacher'].initial = self.instance.teacher_id

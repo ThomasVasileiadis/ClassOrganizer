@@ -9,6 +9,7 @@ from .forms import StudentForm
 from .models import Student
 from .forms import TeacherForm
 from .models import Course
+from .forms import CourseForm
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -171,7 +172,7 @@ def course(request):
         course_teacher_id = request.POST.get('teacher_id')
 
         try:
-            teacher = Teacher.objects.get(id=course_teacher_id)
+            teacher = Teacher.objects.get(teacher_id=course_teacher_id)
             course = Course(name=course_name, code=course_code, description=course_description, teacher=teacher)
             course.save()
         except ObjectDoesNotExist:
@@ -198,21 +199,36 @@ def addcourse(request):
 
     return render(request, 'addcourse.html', context)
 
-def edit_course(request, course_id):
-    course = get_object_or_404(Course, course_id=course_id)  # Make sure you are using the correct field name here
+from django.shortcuts import redirect
 
+from .models import Teacher  # Add this import at the top of your file
+
+def editcourse(request, course_id):
+    course = get_object_or_404(Course, course_id=course_id)
+    print(f"Retrieved course: {course}")
     if request.method == 'POST':
-        # Update the course details
-        course.name = request.POST.get('name')
-        course.code = request.POST.get('code')
-        course.description = request.POST.get('description')
-        course.teacher_id = request.POST.get('teacher_id')
-        course.save()
+        form = CourseForm(request.POST, instance=course)
+        if form.is_valid():
+            course = form.save(commit=False)
+            course.name = form.cleaned_data['name']
+            course.code = form.cleaned_data['code']
+            course.description = form.cleaned_data['description']
+            if 'teacher' in form.cleaned_data:  # Check if teacher is in form.cleaned_data
+                course.teacher_id = form.cleaned_data['teacher']
+            else:
+                print("Teacher field is required.")
+                return render(request, 'editcourse.html', {'form': form, 'course': course, 'teachers': teachers})
+            course.save()
+            print(f"Updated course: {course}")
+            courses = Course.objects.all()
+            return render(request, 'course.html', {'course_id': course.course_id, 'data': courses})
+    else:
+        form = CourseForm(instance=course)
+    print(f"Form errors: {form.errors}")
+    teachers = Teacher.objects.all()  # Query all teachers
+    return render(request, 'editcourse.html', {'form': form, 'course': course, 'teachers': teachers})  # Add teachers to the context
 
-    context = {'course': course}
-    return render(request, 'editcourse.html', context)
-
-def delete_course(request, course_id):
+def deletecourse(request, course_id):
     course = get_object_or_404(Course, course_id=course_id)  # Use course_id instead of id
     course.delete()
     return redirect('course')
