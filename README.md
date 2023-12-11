@@ -31,12 +31,21 @@ Download Class Organizer today and experience the future of school scheduling.
 
 ## Installation
 
-Install project with these steps:
+To create a virtual environment and install the dependencies from the requirements.txt file, you can use the **venv** module in Python and the **pip install -r command**.
+
+Here's the step-by-step plan:
+
+- Open the terminal in your project's root directory.
+- Create a virtual environment using the command python3 -m venv env.
+- Activate the virtual environment using the command source env/bin/activate on Unix or Linux, or .\env\Scripts\activate on Windows.
+- Install the dependencies using the command pip install -r requirements.txt.
+
+Here are the commands:
 
 ```bash
-  git clone https://github.com/ThomasVasileiadis/ClassOrganizer
-  cd path/to/project/ClassOrganizer/classproject
-  python manage.py runserver
+  python3 -m venv env
+  source env/bin/activate
+  pip install -r requirements.txt
 ```
     
 ## Documentation
