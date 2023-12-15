@@ -238,38 +238,8 @@ def deletecourse(request, course_id):
 
 
 
-
+# GENERATION OF SCHEDULE
 def schedule(request):
-    # Get all courses
-    df_courses = read_frame(Course.objects.all())
-
-    # Create an empty schedule
-    # Define the time slots
-    time_slots = pd.date_range("09:00", "17:00", freq="1H").time
-
-    # Define the days
-    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-
-    # For each course
-    for _, course in df_courses.iterrows():
-        # Find a teacher who can teach the course
-        df_teachers = pd.DataFrame()  # Define the df_teachers DataFrame
-
-        teacher = df_teachers[df_teachers['courses'].str.contains(course['course_name'])].iloc[0]
-
-        for day in days:
-            for time_slot in time_slots:
-                if str(time_slot) not in teacher['working_days']:
-                    continue
-
-                # Assign students to the course based on their English level and availability
-                students = df_students[(df_students['english_level'] == course['level']) & (df_students['availability'].str.contains(str(time_slot)))]
-
-                # If there are students who can take the course at this time slot
-                if not students.empty:
-                    # Assign the course to the time slot
-                    schedule.loc[time_slot, day] = f"{course['course_name']} (Teacher: {teacher['name']}, Students: {', '.join(students['name'])})"
-                    break
 
     return render(request, 'schedule.html', {'schedule': schedule})
 
