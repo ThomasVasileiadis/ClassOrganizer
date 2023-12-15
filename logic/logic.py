@@ -1,60 +1,42 @@
-import os
-import sqlite3
 import pandas as pd
-import numpy as np
+from django_pandas.io import read_frame
+import pandas as pd
+from importlib import import_module
+from django.conf import settings
+from django.apps import apps
+from app.models import Student, Teacher, Course, Enrollment, Schedule, Obligations, StudentCourse, StudentObligation
 
-# Define the database path
-db_path = os.path.abspath('./classproject/db.sqlite3')
-print(f'Database path: {db_path}')
-
-# Function to fetch data from SQLite database and return as a dataframe
-def fetch_data_from_db(table_name):
-    # Connect to the SQLite database
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-
-    # Execute a query to fetch the data from a table
-    cursor.execute(f"SELECT * FROM {table_name}")
-
-    # Fetch all the rows from the query result
-    rows = cursor.fetchall()
-
-    # Get column names from the cursor description
-    column_names = [column[0] for column in cursor.description]
-
-    # Create a dataframe from the fetched rows and set the column names
-    df = pd.DataFrame(rows, columns=column_names)
-
-    # Close the cursor and the connection
-    cursor.close()
-    conn.close()
-
-    return df
-
-# Fetch data from the database
-df_students = fetch_data_from_db('classapp_student')
-df_teachers = fetch_data_from_db('classapp_teacher')
-df_courses = fetch_data_from_db('classapp_course')
-
-# Print the dataframes
-print(df_students)
-print(df_teachers)
-print(df_courses)
-
-# Extract relevant fields from the students dataframe
-english_level = df_students['english_level']
-obligation_name = df_students['obligation_name']
-
-# Create a binary matrix for conflict detection
-conflict_matrix = np.zeros((len(df_students), len(df_students)), dtype=bool)
 
 
 # Define the time slots
-time_slots_temp = pd.date_range(start='15:00', end='21:30', freq='15min').time
-time_slots = time_slots_temp[::3]  # Select every third element
+time_slots = pd.date_range("09:00", "17:00", freq="1H").time
 
 # Define the days
 days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+
+# Get all teachers
+teachers = Teacher.objects.all()
+
+# Create a list to store the data
+data = []
+
+# For each teacher, create a dictionary with the teacher's information and the courses they teach
+for teacher in teachers:
+    teacher_data = {
+        'teacher_id': teacher.teacher_id,
+        'name': teacher.name,
+        'last_name': teacher.last_name,
+        'phone': teacher.phone,
+        'working_days': teacher.working_days,
+        'courses': ', '.join(course.name for course in teacher.courses.all()),
+    }
+    data.append(teacher_data)
+
+# Create a DataFrame from the data
+df_teachers = pd.DataFrame(data)
+
+# Get all courses
+df_courses = read_frame(Course.objects.all())
 
 # Create an empty schedule
 schedule = pd.DataFrame(index=time_slots, columns=days)
@@ -65,9 +47,12 @@ for _, course in df_courses.iterrows():
     teacher = df_teachers[df_teachers['courses'].str.contains(course['course_name'])].iloc[0]
 
     # Find a time slot where the teacher is available
+    # Define the df_students DataFrame
+    df_students = pd.DataFrame()
+
     for day in days:
         for time_slot in time_slots:
-            if str(time_slot) not in teacher['availability']:
+            if str(time_slot) not in teacher['working_days']:
                 continue
 
             # Assign students to the course based on their English level and availability
