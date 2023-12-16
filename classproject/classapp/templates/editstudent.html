@@ -24,7 +24,7 @@
         </nav>
         <div class="form-container">
             <h2>Student Information Form</h2>
-            <form action="{% url 'editstudent' student.student_id %}" method="post">
+            <form action="{% url 'editstudent' %}" method="post">
                 {% csrf_token %} <!-- Required for Django forms to prevent CSRF attacks -->
                 <div class="form-group">
                     <label for="name">Name:</label>
@@ -54,7 +54,7 @@
                     <label for="datetime">Obligation Date and Time:</label>
                     <input type="datetime-local" id="datetime" name="obligation_datetime" value="{{ student.obligation_datetime|date:'Y-m-d\TH:i' }}">
                 </div>
-                
+                <input type="hidden" name="teacher_id" value="{{ student.student_id }}" />
                 <button class="student_submit_btn" type="submit">✔️ Update</button>
                 <div>
                     <button class="go_back_btn" onclick="history.back()">⬅️ Go Back</button>  
