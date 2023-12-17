@@ -36,11 +36,11 @@
 
                           <form action="{% url 'editteacher' %}" method="GET">
                             <input type="hidden" name="teacher_id" value="{{ teacher.teacher_id }}" />
-                            <button class="edit_teacher_btn" type="submit">✎ Edit</button>
+                            <button class="edit_teacher_btn" name="edit_btn" value="True" type="submit">✎ Edit</button>
                           </form>
                           <form action="{% url 'deleteteacher' %}" method="GET">
                             <input type="hidden" name="teacher_id" value="{{ teacher.teacher_id }}" />
-                            <button class="delete_teacher_btn" type="submit" >🗑️ Delete</button>
+                            <button class="delete_teacher_btn"  name="delete_btn" value="True"  type="submit" >🗑️ Delete</button>
                           </form>
 
                         </div>

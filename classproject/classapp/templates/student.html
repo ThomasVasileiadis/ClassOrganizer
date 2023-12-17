@@ -37,11 +37,11 @@
                 <div class="button-container">
                           <form action="{% url 'editstudent' %}" method="GET">
                             <input type="hidden" name="student_id" value="{{ student.student_id }}" />
-                            <button class="edit_student_btn" type="submit">✎ Edit</button>
+                            <button class="edit_student_btn" name="edit_btn" value="True" type="submit">✎ Edit</button>
                           </form>
-                          <form action="{% url 'deletestudent' %}" method="GET">
+                          <form action="{% url 'editstudent' %}" method="GET">
                             <input type="hidden" name="student_id" value="{{ student.student_id }}" />
-                            <button class="delete_student_btn" type="submit" >🗑️ Delete</button>
+                            <button class="delete_student_btn" name="delete_btn" value="True" type="submit" >🗑️ Delete</button>
                           </form>
                 </div>
             </div>
