@@ -1,5 +1,8 @@
 
-![GitHub Logo](https://github.com/ThomasVasileiadis/ClassOrganizer/blob/main/classproject/classapp/static/classorganizerlogo.png?raw=true)
+<p align="center">
+  <img src="https://github.com/ThomasVasileiadis/ClassOrganizer/blob/main/classproject/classapp/static/classorganizerlogo.png" width="250" height="250">
+</p>
+
 
 # Class Organizer: The AI-Powered Schedule Wizard
 
