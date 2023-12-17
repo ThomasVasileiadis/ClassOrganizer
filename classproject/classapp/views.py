@@ -235,6 +235,12 @@ def editcourse(request, course_id):
     return render(request, 'editcourse.html',
                   {'form': form, 'course': course, 'teachers': teachers})  # Add teachers to the context
 
+def deletestudent(request):
+    pass
+
+def deleteteacher(request):
+    pass
+
 
 def deletecourse(request, course_id):
     course = get_object_or_404(Course, course_id=course_id)  # Use course_id instead of id
