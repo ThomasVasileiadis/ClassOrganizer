@@ -1,6 +1,5 @@
 
-![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
-
+![GitHub Logo](https://github.com/ThomasVasileiadis/ClassOrganizer/blob/main/classproject/classapp/static/classorganizerlogo.png?raw=true)
 
 # Class Organizer: The AI-Powered Schedule Wizard
 
