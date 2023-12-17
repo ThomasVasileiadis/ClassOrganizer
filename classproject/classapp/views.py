@@ -1,19 +1,11 @@
-from django.http import HttpResponseNotFound
-from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework.views import APIView
-from .models import *
-from rest_framework.response import Response
-from .serializer import *
-from django.views.generic.base import View
-from .forms import StudentForm
-from .models import Student
-from .forms import TeacherForm
-from .models import Course
-from .forms import CourseForm
+
+from .forms import TeacherForm, StudentForm, CourseForm
 from django.core.exceptions import ObjectDoesNotExist
-from django_pandas.io import read_frame
-from .models import Course
-import pandas as pd
+from .models import Course, Teacher, Student
+from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect
+from django.urls import clear_url_caches, reverse
 
 
 def home(request):
@@ -34,12 +26,15 @@ def student(request):
         if not student_obligationdate:
             student_obligationdate = None
 
-        student = Student(monthly_pay=monthly_pay, student_id=student_id, name=student_name, last_name=student_lastname, phone=student_phone, english_level=student_level, obligation_name=student_obligationname, obligation_datetime=student_obligationdate)
+        student = Student(monthly_pay=monthly_pay, student_id=student_id, name=student_name, last_name=student_lastname,
+                          phone=student_phone, english_level=student_level, obligation_name=student_obligationname,
+                          obligation_datetime=student_obligationdate)
         student.save()
-        
+
     data = Student.objects.all()
     context = {'data': data}
     return render(request, 'student.html', context)
+
 
 def addstudent(request):
     if request.method == 'POST':
@@ -54,25 +49,56 @@ def addstudent(request):
         if not student_obligationdate:
             student_obligationdate = None
 
-        student = Student(monthly_pay=monthly_pay, name=student_name, last_name=student_lastname, phone=student_phone, english_level=student_level, obligation_name=student_obligationname, obligation_datetime=student_obligationdate)
+        student = Student(monthly_pay=monthly_pay, name=student_name, last_name=student_lastname, phone=student_phone,
+                          english_level=student_level, obligation_name=student_obligationname,
+                          obligation_datetime=student_obligationdate)
         student.save()
     data = Student.objects.all()
     context = {'data': data}
     return render(request, 'addstudent.html', context)
 
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Student
-from .forms import StudentForm  # Import your StudentForm here
 
-from django.shortcuts import render, get_object_or_404
-from .models import Student
-from .forms import StudentForm
+# def editstudent(request, student_id):
+#     student = get_object_or_404(Student, student_id=student_id)
+#     print(f"Retrieved student: {student}")
+#     if request.method == 'POST':
+#         form = StudentForm(request.POST, instance=student)
+#         if form.is_valid():
+#             student.name = form.cleaned_data['name']
+#             student.last_name = form.cleaned_data['last_name']
+#             student.phone = form.cleaned_data['phone']
+#             student.english_level = form.cleaned_data['english_level']
+#             student.obligation_name = form.cleaned_data['obligation_name']
+#             student.obligation_datetime = form.cleaned_data['obligation_datetime']
+#             student.monthly_pay = form.cleaned_data['monthly_pay']
+#
+#             if not student.obligation_datetime:
+#                 student.obligation_datetime = None
+#
+#             # Save the updated student object to the database
+#             student.save()
+#             print(f"Updated student: {student}")
+#
+#             students = Student.objects.all()
+#             return render(request, 'student.html', {'student_id': student.student_id, 'data': students})
+#     else:
+#         form = StudentForm(instance=student)
+#     print(f"Form errors: {form.errors}")
+#     return render(request, 'editstudent.html', {'form': form, 'student': student})
 
-def editstudent(request, student_id):
-    student = get_object_or_404(Student, student_id=student_id)
-    print(f"Retrieved student: {student}")
-    if request.method == 'POST':
-        form = StudentForm(request.POST, instance=student)
+
+class EditStudent(APIView):
+    def get(self, request):
+        student_id = request.GET.get('student_id')
+        student_model = Student.objects.get_student_model(student_id=student_id)[0]
+        print(f"Retrieved student: {student_id}")
+        return render(request, 'editstudent.html', {'student': student_model})
+
+    def post(self, request):
+        print(request.POST)
+        student_id = request.POST.get('student_id')
+        student_model = Student.objects.get_student_model(student_id=student_id)[0]
+        form = StudentForm(request.POST, instance=student_model)  # , instance=teacher_model
         if form.is_valid():
             student.name = form.cleaned_data['name']
             student.last_name = form.cleaned_data['last_name']
@@ -89,18 +115,17 @@ def editstudent(request, student_id):
             student.save()
             print(f"Updated student: {student}")
 
-            students = Student.objects.all()
-            return render(request, 'student.html', {'student_id': student.student_id, 'data': students})
-    else:
-        form = StudentForm(instance=student)
-    print(f"Form errors: {form.errors}")
-    return render(request, 'editstudent.html', {'form': form, 'student': student})
+            return redirect(reverse('student'))
+        else:
+            print(form.errors)
+
 
 def deletestudent(request, student_id):
     student = get_object_or_404(Student, student_id=student_id)
     student.delete()
     students = Student.objects.all()
     return render(request, 'student.html', {'data': students})
+
 
 def teacher(request):
     if request.method == 'POST':
@@ -112,18 +137,26 @@ def teacher(request):
         # Join the list into a string with a separator
         teacher_workingdays_str = ', '.join(teacher_workingdays)
 
-        teacher = Teacher(name=teacher_name, last_name=teacher_lastname, phone=teacher_phone, working_days=teacher_workingdays_str)
+        teacher = Teacher(name=teacher_name, last_name=teacher_lastname, phone=teacher_phone,
+                          working_days=teacher_workingdays_str)
         teacher.save()
     data = Teacher.objects.all()
     context = {'data': data}
-
     return render(request, 'teacher.html', context)
 
-def editteacher(request, teacher_id):
-    teacher = get_object_or_404(Teacher, teacher_id=teacher_id)
-    print(f"Retrieved teacher: {teacher}")
-    if request.method == 'POST':
-        form = TeacherForm(request.POST, instance=teacher)
+
+class EditTeacher(APIView):
+    def get(self, request):
+        teacher_id = request.GET.get('teacher_id')
+        teacher_model = Teacher.objects.get_teacher_model(teacher_id=teacher_id)[0]
+        print(f"Retrieved teacher: {teacher_id}")
+        return render(request, 'editteacher.html', {'teacher': teacher_model})
+
+    def post(self, request):
+        print(request.POST)
+        teacher_id = request.POST.get('teacher_id')
+        teacher_model = Teacher.objects.get_teacher_model(teacher_id=teacher_id)[0]
+        form = TeacherForm(request.POST, instance=teacher_model)  # , instance=teacher_model
         if form.is_valid():
             teacher = form.save(commit=False)  # Get an instance of the model without saving it to the database
             teacher.name = form.cleaned_data['name']
@@ -134,17 +167,14 @@ def editteacher(request, teacher_id):
             # Save the updated teacher object to the database
             teacher.save()
             print(f"Updated teacher: {teacher}")
+            return redirect(reverse('teacher'))
+        else:
+            print(form.errors)
 
-            teachers = Teacher.objects.all()
-            return render(request, 'teacher.html', {'teacher_id': teacher.teacher_id, 'data': teachers})
-    else:
-        form = TeacherForm(instance=teacher)
-    print(f"Form errors: {form.errors}")
-    return render(request, 'editteacher.html', {'form': form, 'teacher': teacher})
 
-def deleteteacher(request, teacher_id):
-    teacher = get_object_or_404(Teacher, teacher_id=teacher_id)
-    teacher.delete()
+def deleteteacher(request):
+    teacher_id = request.GET.get('teacher_id')
+    Teacher.objects.delete_teacher(teacher_id=teacher_id)
     teachers = Teacher.objects.all()
     return render(request, 'teacher.html', {'data': teachers})
 
@@ -159,7 +189,8 @@ def addteacher(request):
         # Join the list into a string with a separator
         teacher_workingdays_str = ', '.join(teacher_workingdays)
 
-        teacher = Teacher(name=teacher_name, last_name=teacher_lastname, phone=teacher_phone, working_days=teacher_workingdays_str)
+        teacher = Teacher(name=teacher_name, last_name=teacher_lastname, phone=teacher_phone,
+                          working_days=teacher_workingdays_str)
         teacher.save()
     data = Teacher.objects.all()
     context = {'data': data}
@@ -186,6 +217,7 @@ def course(request):
 
     return render(request, 'course.html', context)
 
+
 def addcourse(request):
     if request.method == 'POST':
         course_name = request.POST.get('name')
@@ -202,9 +234,6 @@ def addcourse(request):
 
     return render(request, 'addcourse.html', context)
 
-from django.shortcuts import redirect
-
-from .models import Teacher  # Add this import at the top of your file
 
 def editcourse(request, course_id):
     course = get_object_or_404(Course, course_id=course_id)
@@ -229,7 +258,9 @@ def editcourse(request, course_id):
         form = CourseForm(instance=course)
     print(f"Form errors: {form.errors}")
     teachers = Teacher.objects.all()  # Query all teachers
-    return render(request, 'editcourse.html', {'form': form, 'course': course, 'teachers': teachers})  # Add teachers to the context
+    return render(request, 'editcourse.html',
+                  {'form': form, 'course': course, 'teachers': teachers})  # Add teachers to the context
+
 
 def deletecourse(request, course_id):
     course = get_object_or_404(Course, course_id=course_id)  # Use course_id instead of id
@@ -237,15 +268,14 @@ def deletecourse(request, course_id):
     return redirect('course')
 
 
-
 # GENERATION OF SCHEDULE
 def schedule(request):
-
     return render(request, 'schedule.html', {'schedule': schedule})
 
 
 def student_info(request):
     return render(request, 'student_info.html', {'student_info': student_info})
+
 
 def teacher_info(request):
     return render(request, 'teacher_info.html', {'teacher_info': teacher_info})

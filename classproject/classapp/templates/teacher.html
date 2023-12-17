@@ -26,17 +26,28 @@
         <button class="add_teachers_btn" type="submit" onclick="window.location.href='addteacher/'">➕ Add Teacher</button>   
         <div class="students-container">
             {% for teacher in data %}
-            <div class="student-box">
-                <p>Name: {{ teacher.name }}</p>
-                <p>Last Name: {{ teacher.last_name }}</p>
-                <p>Phone: {{ teacher.phone }}</p>
-                <p>Working Days: {{ teacher.working_days }}</p>
-                <div class="button-container">
-                    <button class="edit_teacher_btn" type="button" onclick="window.location.href='{% url "editteacher" teacher.teacher_id %}'">✎ Edit</button>
-                    <button class="delete_teacher_btn" type="button" onclick="window.location.href='{% url "deleteteacher" teacher.teacher_id %}'">🗑️ Delete</button>
-                </div>
-            </div>
+                    <div class="student-box">
+                        {% csrf_token %}
+                        <p>Name: {{ teacher.name }}</p>
+                        <p>Last Name: {{ teacher.last_name }}</p>
+                        <p>Phone: {{ teacher.phone }}</p>
+                        <p>Working Days: {{ teacher.working_days }}</p>
+                        <div class="button-container">
+
+                          <form action="{% url 'editteacher' %}" method="GET">
+                            <input type="hidden" name="teacher_id" value="{{ teacher.teacher_id }}" />
+                            <button class="edit_teacher_btn" type="submit">✎ Edit</button>
+                          </form>
+                          <form action="{% url 'deleteteacher' %}" method="GET">
+                            <input type="hidden" name="teacher_id" value="{{ teacher.teacher_id }}" />
+                            <button class="delete_teacher_btn" type="submit" >🗑️ Delete</button>
+                          </form>
+
+                        </div>
+                    </div>
+
             {% endfor %}
         </div>
+    </div>
 </body>
 </html>

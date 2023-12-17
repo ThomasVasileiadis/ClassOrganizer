@@ -35,8 +35,14 @@
                 <p>Obligation Name: {{ student.obligation_name }}</p>
                 <p>Obligation Date: {{ student.obligation_datetime|date:"d M Y H:i" }}</p>
                 <div class="button-container">
-                    <button class="edit_student_btn" type="button" onclick="window.location.href='{% url "editstudent" student.student_id %}'">✎ Edit</button>
-                    <button class="delete_student_btn" type="button" onclick="window.location.href='{% url "deletestudent" student.student_id %}'">🗑️ Delete</button>
+                          <form action="{% url 'editstudent' %}" method="GET">
+                            <input type="hidden" name="student_id" value="{{ student.student_id }}" />
+                            <button class="edit_student_btn" type="submit">✎ Edit</button>
+                          </form>
+                          <form action="{% url 'deletestudent' %}" method="GET">
+                            <input type="hidden" name="student_id" value="{{ student.student_id }}" />
+                            <button class="delete_student_btn" type="submit" >🗑️ Delete</button>
+                          </form>
                 </div>
             </div>
                 

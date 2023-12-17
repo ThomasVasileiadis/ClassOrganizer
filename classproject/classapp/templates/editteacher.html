@@ -25,7 +25,16 @@
         {% csrf_token %} 
             <div class="form-container">
                 <h2>Teacher Information Form</h2>
-                <form action="{% url 'editteacher' teacher.teacher_id %}" method="post">
+            	{% if messages %}
+						<div class="messages">
+						{% for message in messages %}
+							<div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+								{{ message }}
+							</div>
+						{% endfor %}
+						</div>
+				{% endif %}
+                <form action="{% url 'editteacher' %}" method="POST">
                     {% csrf_token %} 
                     <div class="form-group">
                         <label for="name">Name:</label>
@@ -52,7 +61,8 @@
                             <div class="select-arrow"></div>
                         </div>
                     </div>
-                    <button class="teacher_submit_btn"type="submit">✔️ Update</button>
+                    <input type="hidden" name="teacher_id" value="{{ teacher.teacher_id }}" />
+                    <button class="teacher_submit_btn" type="submit">✔️ Update</button>
                     <div>
                         <button class="go_back_btn" onclick="history.back()">Go Back</button>   
                     </div>
