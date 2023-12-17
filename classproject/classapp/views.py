@@ -13,6 +13,7 @@ def home(request):
 
 
 def student(request):
+
     if request.method == 'POST':
         student_id = request.POST.get('student_id')
         student_name = request.POST.get('name')
@@ -58,41 +59,19 @@ def addstudent(request):
     return render(request, 'addstudent.html', context)
 
 
-# def editstudent(request, student_id):
-#     student = get_object_or_404(Student, student_id=student_id)
-#     print(f"Retrieved student: {student}")
-#     if request.method == 'POST':
-#         form = StudentForm(request.POST, instance=student)
-#         if form.is_valid():
-#             student.name = form.cleaned_data['name']
-#             student.last_name = form.cleaned_data['last_name']
-#             student.phone = form.cleaned_data['phone']
-#             student.english_level = form.cleaned_data['english_level']
-#             student.obligation_name = form.cleaned_data['obligation_name']
-#             student.obligation_datetime = form.cleaned_data['obligation_datetime']
-#             student.monthly_pay = form.cleaned_data['monthly_pay']
-#
-#             if not student.obligation_datetime:
-#                 student.obligation_datetime = None
-#
-#             # Save the updated student object to the database
-#             student.save()
-#             print(f"Updated student: {student}")
-#
-#             students = Student.objects.all()
-#             return render(request, 'student.html', {'student_id': student.student_id, 'data': students})
-#     else:
-#         form = StudentForm(instance=student)
-#     print(f"Form errors: {form.errors}")
-#     return render(request, 'editstudent.html', {'form': form, 'student': student})
-
 
 class EditStudent(APIView):
     def get(self, request):
         student_id = request.GET.get('student_id')
-        student_model = Student.objects.get_student_model(student_id=student_id)[0]
-        print(f"Retrieved student: {student_id}")
-        return render(request, 'editstudent.html', {'student': student_model})
+
+        if request.GET.get('edit_btn'):
+            student_model = Student.objects.get_student_model(student_id=student_id)[0]
+            print(f"Retrieved student: {student_id}")
+            return render(request, 'editstudent.html', {'student': student_model})
+        else:
+            Student.objects.delete_student(student_id=student_id)
+            students = Student.objects.all()
+            return render(request, 'student.html', {'data': students})
 
     def post(self, request):
         print(request.POST)
@@ -100,6 +79,7 @@ class EditStudent(APIView):
         student_model = Student.objects.get_student_model(student_id=student_id)[0]
         form = StudentForm(request.POST, instance=student_model)  # , instance=teacher_model
         if form.is_valid():
+            student = form.save(commit=False)  # Get an instance of the model without saving it to the database
             student.name = form.cleaned_data['name']
             student.last_name = form.cleaned_data['last_name']
             student.phone = form.cleaned_data['phone']
@@ -118,13 +98,6 @@ class EditStudent(APIView):
             return redirect(reverse('student'))
         else:
             print(form.errors)
-
-
-def deletestudent(request, student_id):
-    student = get_object_or_404(Student, student_id=student_id)
-    student.delete()
-    students = Student.objects.all()
-    return render(request, 'student.html', {'data': students})
 
 
 def teacher(request):
@@ -148,9 +121,17 @@ def teacher(request):
 class EditTeacher(APIView):
     def get(self, request):
         teacher_id = request.GET.get('teacher_id')
-        teacher_model = Teacher.objects.get_teacher_model(teacher_id=teacher_id)[0]
-        print(f"Retrieved teacher: {teacher_id}")
-        return render(request, 'editteacher.html', {'teacher': teacher_model})
+
+        if request.GET.get('edit_btn'):
+
+            teacher_model = Teacher.objects.get_teacher_model(teacher_id=teacher_id)[0]
+            print(f"Retrieved teacher: {teacher_id}")
+            return render(request, 'editteacher.html', {'teacher': teacher_model})
+
+        else:
+            Teacher.objects.delete_teacher(teacher_id=teacher_id)
+            teachers = Teacher.objects.all()
+            return render(request, 'teacher.html', {'data': teachers})
 
     def post(self, request):
         print(request.POST)
@@ -170,13 +151,6 @@ class EditTeacher(APIView):
             return redirect(reverse('teacher'))
         else:
             print(form.errors)
-
-
-def deleteteacher(request):
-    teacher_id = request.GET.get('teacher_id')
-    Teacher.objects.delete_teacher(teacher_id=teacher_id)
-    teachers = Teacher.objects.all()
-    return render(request, 'teacher.html', {'data': teachers})
 
 
 def addteacher(request):
