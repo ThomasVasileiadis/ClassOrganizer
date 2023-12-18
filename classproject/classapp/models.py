@@ -18,7 +18,7 @@ class Student(models.Model):
     student_id = models.AutoField(primary_key=True)  # primary key
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=50)
+    phone = models.CharField(max_length=255, null=True, blank=True)
     english_level = models.CharField(max_length=50, default=' ')
     obligation_name = models.CharField(max_length=50, default=' ')
     obligation_datetime = models.DateTimeField(null=True, blank=True)
@@ -45,8 +45,9 @@ class Teacher(models.Model):
     teacher_id = models.AutoField(primary_key=True)  # primary key
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=50)
+    phone = models.CharField(max_length=50, null=True, blank=True)
     working_days = models.CharField(max_length=50, default='')
+    working_hours = models.CharField(max_length=50, default='')
     courses = models.ManyToManyField('Course', related_name='teachers')
 
     objects = TeacherModelManager()

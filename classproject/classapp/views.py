@@ -1,15 +1,20 @@
 from rest_framework.views import APIView
-
+from django.http import HttpResponseRedirect
 from .forms import TeacherForm, StudentForm, CourseForm
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Course, Teacher, Student
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.urls import clear_url_caches, reverse
+from django.db.models import Sum
 
 
 def home(request):
-    return render(request, 'home.html')
+    student_count = Student.objects.count()
+    teacher_count = Teacher.objects.count()
+    courses_count = Course.objects.count()
+    total_monthly_pay = Student.objects.aggregate(Sum('monthly_pay'))['monthly_pay__sum']
+    return render(request, 'home.html', {'student_count': student_count, 'teacher_count': teacher_count, 'courses_count': courses_count, 'total_monthly_pay': total_monthly_pay})
 
 
 def student(request):
@@ -106,12 +111,13 @@ def teacher(request):
         teacher_lastname = request.POST.get('last_name')
         teacher_phone = request.POST.get('phone')
         teacher_workingdays = request.POST.getlist('working_days')
+        teacher_workinghours = request.POST.get('working_hours')
 
         # Join the list into a string with a separator
         teacher_workingdays_str = ', '.join(teacher_workingdays)
 
         teacher = Teacher(name=teacher_name, last_name=teacher_lastname, phone=teacher_phone,
-                          working_days=teacher_workingdays_str)
+                          working_days=teacher_workingdays_str, working_hours=teacher_workinghours)
         teacher.save()
     data = Teacher.objects.all()
     context = {'data': data}
@@ -137,15 +143,20 @@ class EditTeacher(APIView):
         print(request.POST)
         teacher_id = request.POST.get('teacher_id')
         teacher_model = Teacher.objects.get_teacher_model(teacher_id=teacher_id)[0]
-        form = TeacherForm(request.POST, instance=teacher_model)  # , instance=teacher_model
+        form = TeacherForm(request.POST, instance=teacher_model)
         if form.is_valid():
-            teacher = form.save(commit=False)  # Get an instance of the model without saving it to the database
+            teacher = form.save(commit=False)
             teacher.name = form.cleaned_data['name']
             teacher.last_name = form.cleaned_data['last_name']
             teacher.phone = form.cleaned_data['phone']
-            teacher.working_days = ','.join(request.POST.getlist('working_days'))  # Get a list of selected days
+            teacher.working_days = ','.join(request.POST.getlist('working_days'))
+            working_hours = form.cleaned_data.get('working_hours')  # Use get instead of calling the dictionary
 
-            # Save the updated teacher object to the database
+            if working_hours is not None:
+                teacher.working_hours = working_hours
+            else:
+                teacher.working_hours = " "  # default value
+
             teacher.save()
             print(f"Updated teacher: {teacher}")
             return redirect(reverse('teacher'))
@@ -236,10 +247,14 @@ def editcourse(request, course_id):
                   {'form': form, 'course': course, 'teachers': teachers})  # Add teachers to the context
 
 def deletestudent(request):
-    pass
+    student_id = request.GET.get('student_id')
+    Student.objects.delete_student(student_id)
+    return HttpResponseRedirect('/classapp/student')
 
 def deleteteacher(request):
-    pass
+    teacher_id = request.GET.get('teacher_id')
+    Teacher.objects.delete_teacher(teacher_id)
+    return HttpResponseRedirect('/classapp/teacher')
 
 
 def deletecourse(request, course_id):

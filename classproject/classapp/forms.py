@@ -18,11 +18,8 @@ class StudentForm(forms.ModelForm):
 class TeacherForm(forms.ModelForm):
     class Meta:
         model = Teacher
-        fields = ['name', 'last_name', 'phone', 'working_days']
+        fields = ['name', 'last_name', 'phone', 'working_days', 'working_hours']
 
-
-from django import forms
-from .models import Course, Teacher
 
 class CourseForm(forms.ModelForm):
     teacher = forms.ModelChoiceField(queryset=Teacher.objects.all())  # Add this line

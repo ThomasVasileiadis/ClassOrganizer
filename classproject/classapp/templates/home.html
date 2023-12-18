@@ -26,6 +26,18 @@
                 <li class="nav-item"><a href="{% url 'schedule' %}">Generate Schedule</a></li>
             </ul>
         </nav>
+        <div class="student-count">
+            <h2>Total Students: {{ student_count }}</h2>
+        </div>
+        <div class="teacher-count">
+            <h2>Total Teachers: {{ teacher_count }}</h2>
+        </div>
+        <div class="courses-count">
+            <h2>Total Courses: {{ courses_count }}</h2>
+        </div>
+        <div class="total_monthly_pay">
+            <h2>Total Monthly Pay: {{ total_monthly_pay }} &euro;</h2>
+        </div>
     </div>
 </body>
 </html>

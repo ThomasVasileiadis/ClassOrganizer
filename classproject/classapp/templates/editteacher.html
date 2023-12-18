@@ -61,6 +61,10 @@
                             <div class="select-arrow"></div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="working_hours">Working hours (Weekly):</label>
+                        <input type="text" id="working_hours" name="working_hours" maxlength="50" required value="{{ teacher.working_hours }}">
+                    </div>
                     <input type="hidden" name="teacher_id" value="{{ teacher.teacher_id }}" />
                     <button class="teacher_submit_btn" type="submit">✔️ Update</button>
                     <div>
