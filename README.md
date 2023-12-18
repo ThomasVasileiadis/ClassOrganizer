@@ -12,15 +12,15 @@ Say goodbye to time-consuming trial and error
 
 Class Organizer employs sophisticated reinforcement learning algorithms to tirelessly explore countless scheduling permutations, constantly refining its approach until it discovers the ideal balance of teacher availability, student learning, and overall school harmony.
 
-Experience a schedule that adapts to your needs
+## Experience a schedule that adapts to your needs
 
 Class Organizer isn't just a static solution; it's an intelligent companion that learns from your feedback and preferences. As you provide input and adjustments, it continuously hones its algorithm, ensuring that your schedules evolve alongside your school's dynamic needs.
 
-Schedules so good, teachers will applaud
+## Schedules so good, teachers will applaud
 
 Teachers will rejoice at the seamless integration of their preferences, ensuring they can focus on their passion for education rather than logistics. Class Organizer's intelligent allocation of breaks, preparation time, and collaborative opportunities creates a balanced and engaging learning environment.
 
-Student success is our top priority
+## Student success is our top priority
 
 We understand that learning shouldn't be confined to a regimented routine. Class Organizer carefully considers student preferences and learning styles to create a schedule that promotes engagement, optimizes knowledge retention, and fosters a love for learning.
 
